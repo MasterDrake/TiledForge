@@ -32,7 +32,6 @@ source distribution.
 #include <cstdint>
 #include <ostream>
 
-
 namespace TiledForge
 {
     /*!

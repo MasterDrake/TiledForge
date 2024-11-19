@@ -41,7 +41,7 @@ namespace TiledForge
     class TILEDFORGE_EXPORT_API ImageLayer final : public Layer
     {
     public:
-        explicit ImageLayer(const std::string&);
+        explicit ImageLayer(const eastl::string&);
 
         Type getType() const override { return Layer::Type::Image; }
         void parse(const pugi::xml_node&, Map*) override;
@@ -50,7 +50,7 @@ namespace TiledForge
         \brief Returns the path, relative to the working directory,
         of the image used by the image layer.
         */
-        const std::string& getImagePath() const { return m_filePath; }
+        const eastl::string& getImagePath() const { return m_filePath; }
 
         /*!
         \brief Returns the colour used by the image to represent transparent
@@ -82,26 +82,26 @@ namespace TiledForge
         bool hasRepeatY() const { return m_hasRepeatY; }
 
     private:
-        std::string m_workingDir;
-        std::string m_filePath;
+        eastl::string m_workingDir;
+        eastl::string m_filePath;
         Colour m_transparencyColour;
         bool m_hasTransparency;
-        Vector2u m_imageSize;
         bool m_hasRepeatX;
         bool m_hasRepeatY;
+        Vector2u m_imageSize;
     };
 
     template <>
     inline ImageLayer& Layer::getLayerAs<ImageLayer>()
     {
-        assert(getType() == Type::Image);
+        EASTL_ASSERT(getType() == Type::Image);
         return *static_cast<ImageLayer*>(this);
     }
 
     template <>
     inline const ImageLayer& Layer::getLayerAs<ImageLayer>() const
     {
-        assert(getType() == Type::Image);
+        EASTL_ASSERT(getType() == Type::Image);
         return *static_cast<const ImageLayer*>(this);
     }
 }

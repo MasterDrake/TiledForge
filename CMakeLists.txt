@@ -40,8 +40,12 @@ if(TILEDFORGE_BUILD_TEST)
 endif()
 
 # Required dependency
+
+find_package(EASTL CONFIG REQUIRED)
+target_link_libraries(tiledforge PRIVATE EASTL)
+
 find_package(pugixml REQUIRED)
-target_link_libraries(tiledforge INTERFACE ${PUGIXML_LIBRARY})
+target_link_libraries(tiledforge PUBLIC pugixml::pugixml)
 
 find_package(miniz REQUIRED)
 target_link_libraries(tiledforge PUBLIC miniz::miniz)

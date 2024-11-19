@@ -31,9 +31,7 @@ source distribution.
 #include <TiledForge/FreeFuncs.hpp>
 #include <TiledForge/detail/Log.hpp>
 
-using namespace TiledForge;
-
-ImageLayer::ImageLayer(const std::string& workingDir)
+TiledForge::ImageLayer::ImageLayer(const eastl::string& workingDir)
     : m_workingDir      (workingDir),
     m_hasTransparency   (false),
     m_hasRepeatX        (false),
@@ -43,9 +41,9 @@ ImageLayer::ImageLayer(const std::string& workingDir)
 }
 
 //public
-void ImageLayer::parse(const pugi::xml_node& node, Map*)
+void TiledForge::ImageLayer::parse(const pugi::xml_node& node, Map*)
 {
-    std::string attribName = node.name();
+    eastl::string attribName = node.name();
     if (attribName != "imagelayer")
     {
         Logger::log("Node not an image layer, node skipped", Logger::Type::Error);
@@ -61,7 +59,7 @@ void ImageLayer::parse(const pugi::xml_node& node, Map*)
     setSize(node.attribute("width").as_uint(0), node.attribute("height").as_uint(0));
     setParallaxFactor(node.attribute("parallaxx").as_float(1.f), node.attribute("parallaxy").as_float(1.f));
 
-    std::string tintColour = node.attribute("tintcolor").as_string();
+    eastl::string tintColour = node.attribute("tintcolor").as_string();
     if (!tintColour.empty())
     {
         setTintColour(colourFromString(tintColour));

@@ -31,9 +31,7 @@ source distribution.
 #include <TiledForge/ObjectGroup.hpp>
 #include <TiledForge/detail/Log.hpp>
 
-using namespace TiledForge;
-
-ObjectGroup::ObjectGroup()
+TiledForge::ObjectGroup::ObjectGroup()
     : m_colour    (127, 127, 127, 255),
     m_drawOrder (DrawOrder::TopDown)
 {
@@ -41,11 +39,11 @@ ObjectGroup::ObjectGroup()
 }
 
 //public
-void ObjectGroup::parse(const pugi::xml_node& node, Map* map)
+void TiledForge::ObjectGroup::parse(const pugi::xml_node& node, Map* map)
 {
-    assert(map);
+    EASTL_ASSERT(map);
 
-    std::string attribString = node.name();
+    eastl::string attribString = node.name();
     if (attribString != "objectgroup")
     {
         Logger::log("Node was not an object group, node will be skipped.", Logger::Type::Error);
@@ -67,7 +65,7 @@ void ObjectGroup::parse(const pugi::xml_node& node, Map* map)
     setSize(node.attribute("width").as_uint(0), node.attribute("height").as_uint(0));
     setParallaxFactor(node.attribute("parallaxx").as_float(1.f), node.attribute("parallaxy").as_float(1.f));
 
-    std::string tintColour = node.attribute("tintcolor").as_string();
+    eastl::string tintColour = node.attribute("tintcolor").as_string();
     if (!tintColour.empty())
     {
         setTintColour(colourFromString(tintColour));

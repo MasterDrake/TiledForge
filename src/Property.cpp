@@ -31,14 +31,12 @@ source distribution.
 #include <TiledForge/detail/Log.hpp>
 #include <TiledForge/FreeFuncs.hpp>
 
-using namespace TiledForge;
-
-Property::Property()
+TiledForge::Property::Property()
     : m_type(Type::Undef)
 {
 }
 
-Property Property::fromBoolean(bool value)
+TiledForge::Property TiledForge::Property::fromBoolean(bool value)
 {
     Property p;
     p.m_type = Type::Boolean;
@@ -46,7 +44,7 @@ Property Property::fromBoolean(bool value)
     return p;
 }
 
-Property Property::fromFloat(float value)
+TiledForge::Property TiledForge::Property::fromFloat(float value)
 {
     Property p;
     p.m_type = Type::Float;
@@ -54,7 +52,7 @@ Property Property::fromFloat(float value)
     return p;
 }
 
-Property Property::fromInt(int value)
+TiledForge::Property TiledForge::Property::fromInt(int value)
 {
     Property p;
     p.m_type = Type::Int;
@@ -62,7 +60,7 @@ Property Property::fromInt(int value)
     return p;
 }
 
-Property Property::fromString(const std::string& value)
+TiledForge::Property TiledForge::Property::fromString(const eastl::string& value)
 {
     Property p;
     p.m_type = Type::String;
@@ -70,7 +68,7 @@ Property Property::fromString(const std::string& value)
     return p;
 }
 
-Property Property::fromColour(const Colour& value)
+TiledForge::Property TiledForge::Property::fromColour(const Colour& value)
 {
     Property p;
     p.m_type = Type::Colour;
@@ -78,7 +76,7 @@ Property Property::fromColour(const Colour& value)
     return p;
 }
 
-Property Property::fromFile(const std::string& value)
+TiledForge::Property TiledForge::Property::fromFile(const eastl::string& value)
 {
     Property p;
     p.m_type = Type::File;
@@ -86,7 +84,7 @@ Property Property::fromFile(const std::string& value)
     return p;
 }
 
-Property Property::fromObject(int value)
+TiledForge::Property TiledForge::Property::fromObject(int value)
 {
     Property p;
     p.m_type = Type::Object;
@@ -95,12 +93,12 @@ Property Property::fromObject(int value)
 }
 
 //public
-void Property::parse(const pugi::xml_node& node, bool isObjectTypes)
+void TiledForge::Property::parse(const pugi::xml_node& node, bool isObjectTypes)
 {
     // The value attribute name is different in object types
     const char *const valueAttribute = isObjectTypes ? "default" : "value";
 
-    std::string attribData = node.name();
+    eastl::string attribData = node.name();
     if (attribData != "property")
     {
         Logger::log("Node was not a valid property, node will be skipped", Logger::Type::Error);
@@ -166,7 +164,7 @@ void Property::parse(const pugi::xml_node& node, bool isObjectTypes)
         m_type = Type::Class;
         m_propertyType = node.attribute("propertytype").as_string("null");
 
-        const std::string firstChildName = node.first_child().name();
+        const eastl::string firstChildName = node.first_child().name();
         if (firstChildName == "properties")
         {
             for(const auto& childProp : node.first_child().children())

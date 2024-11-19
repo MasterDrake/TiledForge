@@ -30,9 +30,7 @@ source distribution.
 #include <TiledForge/ObjectTypes.hpp>
 #include <TiledForge/detail/Log.hpp>
 
-using namespace TiledForge;
-
-bool ObjectTypes::load(const std::string &path)
+bool TiledForge::ObjectTypes::load(const eastl::string &path)
 {
     reset();
 
@@ -42,13 +40,13 @@ bool ObjectTypes::load(const std::string &path)
     if (!result)
     {
         Logger::log("Failed opening " + path, Logger::Type::Error);
-        Logger::log("Reason: " + std::string(result.description()), Logger::Type::Error);
+        Logger::log("Reason: " + eastl::string(result.description()), Logger::Type::Error);
         return false;
     }
 
     //make sure we have consistent path separators
     m_workingDirectory = path;
-    std::replace(m_workingDirectory.begin(), m_workingDirectory.end(), '\\', '/');
+    eastl::replace(m_workingDirectory.begin(), m_workingDirectory.end(), '\\', '/');
     m_workingDirectory = getFilePath(m_workingDirectory);
 
     if (!m_workingDirectory.empty() &&
@@ -69,7 +67,7 @@ bool ObjectTypes::load(const std::string &path)
     return parseObjectTypesNode(node);
 }
 
-bool ObjectTypes::loadFromString(const std::string &data, const std::string &workingDir)
+bool TiledForge::ObjectTypes::loadFromString(const eastl::string &data, const eastl::string &workingDir)
 {
     reset();
 
@@ -79,13 +77,13 @@ bool ObjectTypes::loadFromString(const std::string &data, const std::string &wor
     if (!result)
     {
         Logger::log("Failed opening object types", Logger::Type::Error);
-        Logger::log("Reason: " + std::string(result.description()), Logger::Type::Error);
+        Logger::log("Reason: " + eastl::string(result.description()), Logger::Type::Error);
         return false;
     }
 
     //make sure we have consistent path separators
     m_workingDirectory = workingDir;
-    std::replace(m_workingDirectory.begin(), m_workingDirectory.end(), '\\', '/');
+    eastl::replace(m_workingDirectory.begin(), m_workingDirectory.end(), '\\', '/');
     m_workingDirectory = getFilePath(m_workingDirectory);
 
     if (!m_workingDirectory.empty() &&
@@ -106,7 +104,7 @@ bool ObjectTypes::loadFromString(const std::string &data, const std::string &wor
     return parseObjectTypesNode(node);
 }
 
-bool ObjectTypes::parseObjectTypesNode(const pugi::xml_node &node)
+bool TiledForge::ObjectTypes::parseObjectTypesNode(const pugi::xml_node &node)
 {
     //<objecttypes> <-- node
     //  <objecttype name="Character" color="#1e47ff">
@@ -115,7 +113,7 @@ bool ObjectTypes::parseObjectTypesNode(const pugi::xml_node &node)
     //parse types
     for(const auto& child : node.children())
     {
-        std::string attribString = child.name();
+        eastl::string attribString = child.name();
         if (attribString == "objecttype")
         {
             Type type;
@@ -143,7 +141,7 @@ bool ObjectTypes::parseObjectTypesNode(const pugi::xml_node &node)
     return true;
 }
 
-bool ObjectTypes::reset()
+bool TiledForge::ObjectTypes::reset()
 {
     m_workingDirectory.clear();
     m_types.clear();

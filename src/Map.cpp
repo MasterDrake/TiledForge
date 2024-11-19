@@ -36,11 +36,9 @@ source distribution.
 #include <TiledForge/detail/Log.hpp>
 #include <TiledForge/detail/Android.hpp>
 
-#include <queue>
+#include <EASTL/queue.h>
 
-using namespace TiledForge;
-
-Map::Map()
+TiledForge::Map::Map()
     : m_orientation (Orientation::None),
     m_renderOrder   (RenderOrder::None),
     m_infinite      (false),
@@ -52,7 +50,7 @@ Map::Map()
 }
 
 //public
-bool Map::load(const std::string& path)
+bool TiledForge::Map::load(const eastl::string& path)
 {
     reset();
 
@@ -62,13 +60,13 @@ bool Map::load(const std::string& path)
     if (!result)
     {
         Logger::log("Failed opening " + path, Logger::Type::Error);
-        Logger::log("Reason: " + std::string(result.description()), Logger::Type::Error);
+        Logger::log("Reason: " + eastl::string(result.description()), Logger::Type::Error);
         return false;
     }
 
     //make sure we have consistent path separators
     m_workingDirectory = path;
-    std::replace(m_workingDirectory.begin(), m_workingDirectory.end(), '\\', '/');
+    eastl::replace(m_workingDirectory.begin(), m_workingDirectory.end(), '\\', '/');
     m_workingDirectory = getFilePath(m_workingDirectory);
 
     if (!m_workingDirectory.empty() &&
@@ -89,7 +87,7 @@ bool Map::load(const std::string& path)
     return parseMapNode(mapNode);
 }
 
-bool Map::loadFromString(const std::string& data, const std::string& workingDir)
+bool TiledForge::Map::loadFromString(const eastl::string& data, const eastl::string& workingDir)
 {
     reset();
 
@@ -99,13 +97,13 @@ bool Map::loadFromString(const std::string& data, const std::string& workingDir)
     if (!result)
     {
         Logger::log("Failed opening map", Logger::Type::Error);
-        Logger::log("Reason: " + std::string(result.description()), Logger::Type::Error);
+        Logger::log("Reason: " + eastl::string(result.description()), Logger::Type::Error);
         return false;
     }
 
     //make sure we have consistent path separators
     m_workingDirectory = workingDir;
-    std::replace(m_workingDirectory.begin(), m_workingDirectory.end(), '\\', '/');
+    eastl::replace(m_workingDirectory.begin(), m_workingDirectory.end(), '\\', '/');
     m_workingDirectory = getFilePath(m_workingDirectory);
 
     if (!m_workingDirectory.empty() &&
@@ -126,12 +124,12 @@ bool Map::loadFromString(const std::string& data, const std::string& workingDir)
 }
 
 //private
-bool Map::parseMapNode(const pugi::xml_node& mapNode)
+bool TiledForge::Map::parseMapNode(const pugi::xml_node& mapNode)
 {
     //parse map attributes
     std::size_t pointPos = 0;
-    std::string attribString = mapNode.attribute("version").as_string();
-    if (attribString.empty() || (pointPos = attribString.find('.')) == std::string::npos)
+    eastl::string attribString = mapNode.attribute("version").as_string();
+    if (attribString.empty() || (pointPos = attribString.find('.')) == eastl::string::npos)
     {
         Logger::log("Invalid map version value, map not loaded.", Logger::Type::Error);
         return reset();
@@ -284,7 +282,7 @@ bool Map::parseMapNode(const pugi::xml_node& mapNode)
     //parse all child nodes
     for (const auto& node : mapNode.children())
     {
-        std::string name = node.name();
+        eastl::string name = node.name();
         if (name == "tileset")
         {
             m_tilesets.emplace_back(m_workingDirectory);
@@ -292,17 +290,17 @@ bool Map::parseMapNode(const pugi::xml_node& mapNode)
         }
         else if (name == "layer")
         {
-            m_layers.emplace_back(std::make_unique<TileLayer>(m_tileCount.x * m_tileCount.y));
+            m_layers.emplace_back(eastl::make_unique<TileLayer>(m_tileCount.x * m_tileCount.y));
             m_layers.back()->parse(node);
         }
         else if (name == "objectgroup")
         {
-            m_layers.emplace_back(std::make_unique<ObjectGroup>());
+            m_layers.emplace_back(eastl::make_unique<ObjectGroup>());
             m_layers.back()->parse(node, this);
         }
         else if (name == "imagelayer")
         {
-            m_layers.emplace_back(std::make_unique<ImageLayer>(m_workingDirectory));
+            m_layers.emplace_back(eastl::make_unique<ImageLayer>(m_workingDirectory));
             m_layers.back()->parse(node, this);
         }
         else if (name == "properties")
@@ -316,7 +314,7 @@ bool Map::parseMapNode(const pugi::xml_node& mapNode)
         }
         else if (name == "group")
         {
-            m_layers.emplace_back(std::make_unique<LayerGroup>(m_workingDirectory, m_tileCount));
+            m_layers.emplace_back(eastl::make_unique<LayerGroup>(m_workingDirectory, m_tileCount));
             m_layers.back()->parse(node, this);
         }
         else
@@ -339,7 +337,7 @@ bool Map::parseMapNode(const pugi::xml_node& mapNode)
     return true;
 }
 
-bool Map::reset()
+bool TiledForge::Map::reset()
 {
     m_orientation = Orientation::None;
     m_renderOrder = RenderOrder::None;

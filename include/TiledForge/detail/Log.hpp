@@ -30,12 +30,12 @@ source distribution.
 #ifndef TILEDFORGE_LOGGER_HPP_
 #define TILEDFORGE_LOGGER_HPP_
 
-#include <string>
+#include <EASTL/string.h>
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <sstream>
-#include <list>
+#include <EASTL/list.h>
 #include <ctime>
 
 #ifdef _MSC_VER
@@ -84,9 +84,9 @@ namespace TiledForge
         \param type Whether this message gets tagged as information, a warning or an error
         \param output Destination for the message. Can be the console via cout, a log file on disk, or both
         */
-        static void log(const std::string& message, Type type = Type::Info, Output output = Output::Console)
+        static void log(const eastl::string& message, Type type = Type::Info, Output output = Output::Console)
         {
-            std::string outstring;
+            eastl::string outstring;
             switch (type)
             {
             case Type::Info:
@@ -112,7 +112,7 @@ namespace TiledForge
                     std::strcpy(outstring_chararray, outstring.c_str()); 
                     LOGE("%s",outstring_chararray);
 #endif
-                    std::cerr << outstring << std::endl;
+                    std::cerr << outstring.c_str() << std::endl;
                 }
                 else
                 {
@@ -122,7 +122,7 @@ namespace TiledForge
                     std::strcpy(outstring_chararray, outstring.c_str()); 
                     LOGI("%s", outstring_chararray);
 #endif
-                    std::cout << outstring << std::endl;
+                    std::cout << outstring.c_str() << std::endl;
                 }
                 const std::size_t maxBuffer = 30;
                 buffer().push_back(outstring);
@@ -147,7 +147,7 @@ namespace TiledForge
                     file.imbue(std::locale());
                     file << std::put_time(&tm, "%d/%m/%y-%H:%M:%S: ");
 #endif //__ANDROID__
-                    file << outstring << std::endl;
+                    file << outstring.c_str() << std::endl;
                     file.close();
                 }
                 else
@@ -158,11 +158,11 @@ namespace TiledForge
             }
         }
 
-        static const std::string& bufferString(){ return stringOutput(); }
+        static const eastl::string& bufferString(){ return stringOutput(); }
 
     private:
-        static std::list<std::string>& buffer(){ static std::list<std::string> buffer; return buffer; }
-        static std::string& stringOutput() { static std::string output; return output; }
+        static eastl::list<eastl::string>& buffer(){ static eastl::list<eastl::string> buffer; return buffer; }
+        static eastl::string& stringOutput() { static eastl::string output; return output; }
         static void updateOutString(std::size_t maxBuffer)
         {
             static size_t count = 0;

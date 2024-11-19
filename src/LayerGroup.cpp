@@ -34,19 +34,17 @@ source distribution.
 #include <TiledForge/TileLayer.hpp>
 #include <TiledForge/detail/Log.hpp>
 
-using namespace TiledForge;
-
-LayerGroup::LayerGroup(const std::string& workingDir, const Vector2u& tileCount)
+TiledForge::LayerGroup::LayerGroup(const eastl::string& workingDir, const Vector2u& tileCount)
     : m_workingDir(workingDir),
     m_tileCount(tileCount)
 {
 }
 
 //public
-void LayerGroup::parse(const pugi::xml_node& node, Map* map)
+void TiledForge::LayerGroup::parse(const pugi::xml_node& node, Map* map)
 {
-    assert(map);
-    std::string attribString = node.name();
+    EASTL_ASSERT(map);
+    eastl::string attribString = node.name();
     if (attribString != "group")
     {
         Logger::log("Node was not a group layer, node will be skipped.", Logger::Type::Error);
@@ -61,7 +59,7 @@ void LayerGroup::parse(const pugi::xml_node& node, Map* map)
     setSize(node.attribute("width").as_uint(0), node.attribute("height").as_uint(0));
     setParallaxFactor(node.attribute("parallaxx").as_float(1.f), node.attribute("parallaxy").as_float(1.f));
 
-    std::string tintColour = node.attribute("tintcolor").as_string();
+    eastl::string tintColour = node.attribute("tintcolor").as_string();
     if (!tintColour.empty())
     {
         setTintColour(colourFromString(tintColour));
@@ -80,22 +78,22 @@ void LayerGroup::parse(const pugi::xml_node& node, Map* map)
         }
         else if (attribString == "layer")
         {
-            m_layers.emplace_back(std::make_unique<TileLayer>(m_tileCount.x * m_tileCount.y));
+            m_layers.emplace_back(eastl::make_unique<TileLayer>(m_tileCount.x * m_tileCount.y));
             m_layers.back()->parse(child, map);
         }
         else if (attribString == "objectgroup")
         {
-            m_layers.emplace_back(std::make_unique<ObjectGroup>());
+            m_layers.emplace_back(eastl::make_unique<ObjectGroup>());
             m_layers.back()->parse(child, map);
         }
         else if (attribString == "imagelayer")
         {
-            m_layers.emplace_back(std::make_unique<ImageLayer>(m_workingDir));
+            m_layers.emplace_back(eastl::make_unique<ImageLayer>(m_workingDir));
             m_layers.back()->parse(child, map);
         }
         else if (attribString == "group")
         {
-            m_layers.emplace_back(std::make_unique<LayerGroup>(m_workingDir, m_tileCount));
+            m_layers.emplace_back(eastl::make_unique<LayerGroup>(m_workingDir, m_tileCount));
             m_layers.back()->parse(child, map);
         }
         else

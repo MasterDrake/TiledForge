@@ -31,8 +31,8 @@ source distribution.
 #include <TiledForge/Property.hpp>
 #include <TiledForge/Types.hpp>
 
-#include <string>
-#include <vector>
+#include <EASTL/string.h>
+#include <EASTL/vector.h>
 
 namespace pugi
 {
@@ -48,7 +48,7 @@ namespace TiledForge
     */
     struct TILEDFORGE_EXPORT_API Text final
     {
-        std::string fontFamily;
+        eastl::string fontFamily;
         std::uint32_t pixelSize = 16; //!< pixels, not points
         bool wrap = false;
         Colour colour;
@@ -68,7 +68,7 @@ namespace TiledForge
             Top, Centre, Bottom
         }vAlign = VAlign::Top;
 
-        std::string content; //!< actual string content
+        eastl::string content; //!< actual string content
     };
     
     /*!
@@ -109,17 +109,17 @@ namespace TiledForge
         /*!
         \brief Returns the name of the Object
         */
-        const std::string& getName() const { return m_name; }
+        const eastl::string& getName() const { return m_name; }
         
         /*!
         \brief Returns the type (equal to class) of the Object, as defined in the editor Tiled < 1.9
         */
-        const std::string& getType() const { return m_class; }
+        const eastl::string& getType() const { return m_class; }
 
         /*!
         \brief Returns the class (equal to type) of the Object, as defined in the editor Tiled 1.9+
         */
-        const std::string& getClass() const { return m_class; }
+        const eastl::string& getClass() const { return m_class; }
 
         /*!
         \brief Returns the position of the Object in pixels
@@ -169,13 +169,13 @@ namespace TiledForge
         then the vector will be empty. Point coordinates are in pixels,
         relative to the object position.
         */
-        const std::vector<Vector2f>& getPoints() const { return m_points; }
+        const eastl::vector<Vector2f>& getPoints() const { return m_points; }
         
         /*!
         \brief Returns a reference to the vector of properties belonging to
         the Object.
         */
-        const std::vector<Property>& getProperties() const { return m_properties; }
+        const eastl::vector<Property>& getProperties() const { return m_properties; }
 
         /*!
         \brief Returns a Text struct containing information about any text
@@ -193,12 +193,12 @@ namespace TiledForge
         If the string is not empty use it to index the unordered_map returned
         by Map::getTemplateTilesets()
         */
-        const std::string& getTilesetName() const { return m_tilesetName; }
+        const eastl::string& getTilesetName() const { return m_tilesetName; }
 
     private:
         std::uint32_t m_UID;
-        std::string m_name;
-        std::string m_class;
+        eastl::string m_name;
+        eastl::string m_class;
         Vector2f m_position;
         FloatRect m_AABB;
         float m_rotation;
@@ -207,15 +207,15 @@ namespace TiledForge
         bool m_visible;
 
         Shape m_shape;
-        std::vector<Vector2f> m_points;
-        std::vector<Property> m_properties;
+        eastl::vector<Vector2f> m_points;
+        eastl::vector<Property> m_properties;
 
         Text m_textData;
 
-        std::string m_tilesetName;
+        eastl::string m_tilesetName;
 
         void parsePoints(const pugi::xml_node&);
         void parseText(const pugi::xml_node&);
-        void parseTemplate(const std::string&, Map*);
+        void parseTemplate(const eastl::string&, Map*);
     };
 }

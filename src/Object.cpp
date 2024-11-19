@@ -35,9 +35,7 @@ source distribution.
 
 #include <sstream>
 
-using namespace TiledForge;
-
-Object::Object()
+TiledForge::Object::Object()
     : m_UID     (0),
     m_rotation  (0.f),
     m_tileID    (0),
@@ -49,9 +47,9 @@ Object::Object()
 }
 
 //public
-void Object::parse(const pugi::xml_node& node, Map* map)
+void TiledForge::Object::parse(const pugi::xml_node& node, Map* map)
 {
-    std::string attribString = node.name();
+    eastl::string attribString = node.name();
     if (attribString != "object")
     {
         Logger::log("This not an Object node, parsing skipped.", Logger::Type::Error);
@@ -120,7 +118,7 @@ void Object::parse(const pugi::xml_node& node, Map* map)
 
     //parse templates last so we know which properties
     //ought to be overridden
-    std::string templateStr = node.attribute("template").as_string();
+    eastl::string templateStr = node.attribute("template").as_string();
     if (!templateStr.empty() && map)
     {
         parseTemplate(templateStr, map);
@@ -128,24 +126,24 @@ void Object::parse(const pugi::xml_node& node, Map* map)
 }
 
 //private
-void Object::parsePoints(const pugi::xml_node& node)
+void TiledForge::Object::parsePoints(const pugi::xml_node& node)
 {
     if (node.attribute("points"))
     {
-        std::string pointlist = node.attribute("points").as_string();
-        std::stringstream stream(pointlist);
-        std::vector<std::string> points;
+        eastl::string pointlist = node.attribute("points").as_string();
+        std::stringstream stream(pointlist.c_str());
+        eastl::vector<eastl::string> points;
         std::string pointstring;
         while (std::getline(stream, pointstring, ' '))
         {
-            points.push_back(pointstring);
+            points.push_back(pointstring.c_str());
         }
 
         //parse each pair into sf::vector2f
         for (unsigned int i = 0; i < points.size(); i++)
         {
-            std::vector<float> coords;
-            std::stringstream coordstream(points[i]);
+            eastl::vector<float> coords;
+            std::stringstream coordstream(points[i].c_str());
 
             float j;
             while (coordstream >> j)
@@ -166,7 +164,7 @@ void Object::parsePoints(const pugi::xml_node& node)
     }
 }
 
-void Object::parseText(const pugi::xml_node& node)
+void TiledForge::Object::parseText(const pugi::xml_node& node)
 {
     m_textData.bold = node.attribute("bold").as_bool(false);
     m_textData.colour = colourFromString(node.attribute("color").as_string("#FFFFFFFF"));
@@ -178,7 +176,7 @@ void Object::parseText(const pugi::xml_node& node)
     m_textData.underline = node.attribute("underline").as_bool(false);
     m_textData.wrap = node.attribute("wrap").as_bool(false);
 
-    std::string alignment = node.attribute("halign").as_string("left");
+    eastl::string alignment = node.attribute("halign").as_string("left");
     if (alignment == "left")
     {
         m_textData.hAlign = Text::HAlign::Left;
@@ -209,9 +207,9 @@ void Object::parseText(const pugi::xml_node& node)
     m_textData.content = node.text().as_string();
 }
 
-void Object::parseTemplate(const std::string& path, Map* map)
+void TiledForge::Object::parseTemplate(const eastl::string& path, Map* map)
 {
-    assert(map);
+    EASTL_ASSERT(map);
 
     auto& templateObjects = map->getTemplateObjects();
     auto& templateTilesets = map->getTemplateTilesets();
@@ -236,7 +234,7 @@ void Object::parseTemplate(const std::string& path, Map* map)
         }
 
         //if the template has a tileset load that (if not already loaded)
-        std::string tilesetName;
+        eastl::string tilesetName;
         auto tileset = templateNode.child("tileset");
         if (tileset)
         {
@@ -244,7 +242,7 @@ void Object::parseTemplate(const std::string& path, Map* map)
             if (!tilesetName.empty() &&
                 templateTilesets.count(tilesetName) == 0)
             {
-                templateTilesets.insert(std::make_pair(tilesetName, Tileset(map->getWorkingDirectory())));
+                templateTilesets.insert(eastl::make_pair(tilesetName, Tileset(map->getWorkingDirectory())));
                 templateTilesets.at(tilesetName).parse(tileset, map);
             }
         }
@@ -254,7 +252,7 @@ void Object::parseTemplate(const std::string& path, Map* map)
         auto obj = templateNode.child("object");
         if (obj)
         {
-            templateObjects.insert(std::make_pair(path, Object()));
+            templateObjects.insert(eastl::make_pair(path, Object()));
             templateObjects[path].parse(obj, nullptr);
             templateObjects[path].m_tilesetName = tilesetName;
         }
@@ -314,7 +312,7 @@ void Object::parseTemplate(const std::string& path, Map* map)
         //compare properties and only copy ones that don't exist
         for (const auto& p : obj.m_properties)
         {
-            auto result = std::find_if(m_properties.begin(), m_properties.end(), 
+            auto result = eastl::find_if(m_properties.begin(), m_properties.end(), 
                 [&p](const Property& a)
                 {
                     return a.getName() == p.getName();

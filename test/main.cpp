@@ -31,17 +31,57 @@ source distribution.
 #include <TiledForge/TileLayer.hpp>
 
 #include <iostream>
-#include <array>
-#include <string>
+#include <EASTL/array.h>
+#include <EASTL/string.h>
+
+void* operator new[](size_t size, const char* name, int flags, unsigned debugFlags, const char* file, int line)
+{
+    (void)name; (void)flags; (void)debugFlags; (void)file; (void)line;
+    return new uint8_t[size];
+}
+
+void* operator new[](size_t size, size_t alignment, size_t offset, const char* name, int flags, unsigned debugFlags, const char* file, int line)
+{
+    (void)alignment; (void)offset; (void)name; (void)flags; (void)debugFlags; (void)file; (void)line;
+    return new uint8_t[size];
+}
+
+namespace EA
+{
+    namespace StdC
+    {
+        EASTL_EASTDC_API int Vsnprintf(char* EA_RESTRICT buffer, size_t size, const char* EA_RESTRICT format, va_list args)
+        {
+            return vsnprintf(buffer, size, format, args);
+        }
+    }
+}
+
+namespace std
+{
+    inline std::ostream& operator<<(std::ostream& os, const eastl::string& str)
+    {
+        os << str.c_str();
+        return os;
+    }
+
+    inline std::istream& operator>>(std::istream& is, eastl::string& str)
+    {
+        std::string temp;
+        is >> temp;  
+        str = eastl::string(temp.c_str());
+        return is;
+    }
+}
 
 namespace
 {
-    const std::array<std::string, 4u> LayerStrings =
+    const eastl::array<eastl::string, 4u> LayerStrings =
     {
-        std::string("Tile"),
-        std::string("Object"),
-        std::string("Image"),
-        std::string("Group"),
+        eastl::string("Tile"),
+        eastl::string("Object"),
+        eastl::string("Image"),
+        eastl::string("Group"),
     };
 }
 
@@ -49,7 +89,7 @@ int main()
 {
     TiledForge::Map map;
 
-    if (map.load("maps/platform.tmx"))
+    if (map.load("../../maps/platform.tmx"))
     {
         std::cout << "Loaded Map version: " << map.getVersion().upper << ", " << map.getVersion().lower << std::endl;
         if (map.isInfinite())

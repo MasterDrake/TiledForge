@@ -54,7 +54,7 @@ namespace TiledForge
         {
             Vector2i position; //<! coordinate in tiles, not pixels
             Vector2i size; //!< size in tiles, not pixels
-            std::vector<Tile> tiles;
+            eastl::vector<Tile> tiles;
         };
 
         /*!
@@ -78,7 +78,7 @@ namespace TiledForge
         which case the tile data is stored in chunks.
         \see getChunks()
         */
-        const std::vector<Tile>& getTiles() const { return m_tiles; }
+        const eastl::vector<Tile>& getTiles() const { return m_tiles; }
 
         /*!
         \brief Returns a vector of chunks which make up this layer
@@ -86,31 +86,31 @@ namespace TiledForge
         is not infinite.
         \see getTiles()
         */
-        const std::vector<Chunk>& getChunks() const { return m_chunks; }
+        const eastl::vector<Chunk>& getChunks() const { return m_chunks; }
 
     private:
-        std::vector<Tile> m_tiles;
-        std::vector<Chunk> m_chunks;
+        eastl::vector<Tile> m_tiles;
+        eastl::vector<Chunk> m_chunks;
         std::size_t m_tileCount;
 
         void parseBase64(const pugi::xml_node&);
         void parseCSV(const pugi::xml_node&);
         void parseUnencoded(const pugi::xml_node&);
 
-        void createTiles(const std::vector<std::uint32_t>&, std::vector<Tile>& destination);
+        void createTiles(const eastl::vector<std::uint32_t>&, eastl::vector<Tile>& destination);
     };
 
     template <>
     inline TileLayer& Layer::getLayerAs<TileLayer>()
     {
-        assert(getType() == Type::Tile);
+        EASTL_ASSERT(getType() == Type::Tile);
         return *static_cast<TileLayer*>(this);
     }
 
     template <>
     inline const TileLayer& Layer::getLayerAs<TileLayer>() const
     {
-        assert(getType() == Type::Tile);
+        EASTL_ASSERT(getType() == Type::Tile);
         return *static_cast<const TileLayer*>(this);
     }
 }

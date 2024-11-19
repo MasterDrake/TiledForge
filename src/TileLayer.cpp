@@ -38,8 +38,6 @@ source distribution.
 
 #include <sstream>
 
-using namespace TiledForge;
-
 namespace
 {
     struct CompressionType final
@@ -51,16 +49,16 @@ namespace
     };
 }
 
-TileLayer::TileLayer(std::size_t tileCount)
+TiledForge::TileLayer::TileLayer(std::size_t tileCount)
     : m_tileCount (tileCount)
 {
     m_tiles.reserve(tileCount);
 }
 
 //public
-void TileLayer::parse(const pugi::xml_node& node, Map*)
+void TiledForge::TileLayer::parse(const pugi::xml_node& node, Map*)
 {
-    std::string attribName = node.name();
+    eastl::string attribName = node.name();
     if (attribName != "layer")
     {
         Logger::log("node not a layer node, skipped parsing", Logger::Type::Error);
@@ -75,7 +73,7 @@ void TileLayer::parse(const pugi::xml_node& node, Map*)
     setSize(node.attribute("width").as_uint(0), node.attribute("height").as_uint(0));
     setParallaxFactor(node.attribute("parallaxx").as_float(1.f), node.attribute("parallaxy").as_float(1.f));
 
-    std::string tintColour = node.attribute("tintcolor").as_string();
+    eastl::string tintColour = node.attribute("tintcolor").as_string();
     if (!tintColour.empty())
     {
         setTintColour(colourFromString(tintColour));
@@ -112,17 +110,17 @@ void TileLayer::parse(const pugi::xml_node& node, Map*)
 }
 
 //private
-void TileLayer::parseBase64(const pugi::xml_node& node)
+void TiledForge::TileLayer::parseBase64(const pugi::xml_node& node)
 {
-    auto processDataString = [](std::string dataString, std::size_t tileCount, std::int32_t compressionType)->std::vector<std::uint32_t>
+    auto processDataString = [](eastl::string dataString, std::size_t tileCount, std::int32_t compressionType)->eastl::vector<std::uint32_t>
     {
-        std::stringstream ss;
-        ss << dataString;
-        ss >> dataString;
+        // Clean the string by removing spaces, newlines, or any other unwanted characters.
+        dataString.erase(eastl::remove_if(dataString.begin(), dataString.end(), [](unsigned char c) { return std::isspace(c); }), dataString.end());
+
         dataString = base64_decode(dataString);
 
         std::size_t expectedSize = tileCount * 4; //4 bytes per tile
-        std::vector<unsigned char> byteData;
+        eastl::vector<unsigned char> byteData;
         byteData.reserve(expectedSize);
 
         switch (compressionType)
@@ -138,7 +136,7 @@ void TileLayer::parseBase64(const pugi::xml_node& node)
                 
                 if (ZSTD_isError(result))
                 {
-                    std::string err = ZSTD_getErrorName(result);
+                    eastl::string err = ZSTD_getErrorName(result);
                     LOG("Failed to decompress layer data, node skipped.\nError: " + err, Logger::Type::Error);
                 }
             }
@@ -167,7 +165,7 @@ void TileLayer::parseBase64(const pugi::xml_node& node)
         }
 
         //data stream is in bytes so we need to OR into 32 bit values
-        std::vector<std::uint32_t> IDs;
+        eastl::vector<std::uint32_t> IDs;
         IDs.reserve(tileCount);
         for (auto i = 0u; i < expectedSize - 3u; i += 4u)
         {
@@ -179,7 +177,7 @@ void TileLayer::parseBase64(const pugi::xml_node& node)
     };
 
     std::int32_t compressionType = CompressionType::None;
-    std::string compression = node.attribute("compression").as_string();
+    eastl::string compression = node.attribute("compression").as_string();
     if (compression == "gzip")
     {
         compressionType = CompressionType::GZip;
@@ -193,17 +191,17 @@ void TileLayer::parseBase64(const pugi::xml_node& node)
         compressionType = CompressionType::Zstd;
     }
 
-    std::string data = node.text().as_string();
+    eastl::string data = node.text().as_string();
     if (data.empty())
     {
         //check for chunk nodes
         auto dataCount = 0;
         for (const auto& childNode : node.children())
         {
-            std::string childName = childNode.name();
+            eastl::string childName = childNode.name();
             if (childName == "chunk")
             {
-                std::string dataString = childNode.text().as_string();
+                eastl::string dataString = childNode.text().as_string();
                 if (!dataString.empty())
                 {
                     Chunk chunk;
@@ -238,11 +236,11 @@ void TileLayer::parseBase64(const pugi::xml_node& node)
     }
 }
 
-void TileLayer::parseCSV(const pugi::xml_node& node)
+void TiledForge::TileLayer::parseCSV(const pugi::xml_node& node)
 {
-    auto processDataString = [](const std::string dataString, std::size_t tileCount)->std::vector<std::uint32_t>
+    auto processDataString = [](const eastl::string dataString, std::size_t tileCount)->eastl::vector<std::uint32_t>
     {
-        std::vector<std::uint32_t> IDs;
+        eastl::vector<std::uint32_t> IDs;
         IDs.reserve(tileCount);
 
         const char* ptr = dataString.c_str();
@@ -259,17 +257,17 @@ void TileLayer::parseCSV(const pugi::xml_node& node)
         return IDs;
     };
 
-    std::string data = node.text().as_string();
+    eastl::string data = node.text().as_string();
     if (data.empty())
     {
         //check for chunk nodes
         auto dataCount = 0;
         for (const auto& childNode : node.children())
         {
-            std::string childName = childNode.name();
+            eastl::string childName = childNode.name();
             if (childName == "chunk")
             {
-                std::string dataString = childNode.text().as_string();
+                eastl::string dataString = childNode.text().as_string();
                 if (!dataString.empty())
                 {
                     Chunk chunk;
@@ -303,10 +301,10 @@ void TileLayer::parseCSV(const pugi::xml_node& node)
     }
 }
 
-void TileLayer::parseUnencoded(const pugi::xml_node& node)
+void TiledForge::TileLayer::parseUnencoded(const pugi::xml_node& node)
 {
-    std::string attribName;
-    std::vector<std::uint32_t> IDs;
+    eastl::string attribName;
+    eastl::vector<std::uint32_t> IDs;
     IDs.reserve(m_tileCount);
 
     for (const auto& child : node.children())
@@ -321,10 +319,10 @@ void TileLayer::parseUnencoded(const pugi::xml_node& node)
     createTiles(IDs, m_tiles);
 }
 
-void TileLayer::createTiles(const std::vector<std::uint32_t>& IDs, std::vector<Tile>& destination)
+void TiledForge::TileLayer::createTiles(const eastl::vector<std::uint32_t>& IDs, eastl::vector<Tile>& destination)
 {
     //LOG(IDs.size() != m_tileCount, "Layer tile count does not match expected size. Found: "
-    //    + std::to_string(IDs.size()) + ", expected: " + std::to_string(m_tileCount));
+    //    + std::to_string(IDs.size()) + ", expected: " + eastl::to_string(m_tileCount));
     
     static const std::uint32_t mask = 0xf0000000;
     for (const auto& id : IDs)

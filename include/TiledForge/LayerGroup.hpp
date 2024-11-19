@@ -30,7 +30,7 @@ source distribution.
 #include <TiledForge/Layer.hpp>
 #include <TiledForge/Types.hpp>
 
-#include <vector>
+#include <EASTL/vector.h>
 
 namespace TiledForge
 {
@@ -43,7 +43,7 @@ namespace TiledForge
     {
     public:
 
-        LayerGroup(const std::string& workDir, const Vector2u& tileCount);
+        LayerGroup(const eastl::string& workDir, const Vector2u& tileCount);
         ~LayerGroup() = default;
         LayerGroup(const LayerGroup&) = delete;
         const LayerGroup& operator = (const LayerGroup&) = delete;
@@ -60,27 +60,27 @@ namespace TiledForge
         found via Layer::getType()
         \see Layer
         */
-        const std::vector<Layer::Ptr>& getLayers() const { return m_layers; }
+        const eastl::vector<Layer::Ptr>& getLayers() const { return m_layers; }
 
     private:
 
-        std::vector<Layer::Ptr> m_layers;
+        eastl::vector<Layer::Ptr> m_layers;
 
-        std::string m_workingDir;
+        eastl::string m_workingDir;
         Vector2u m_tileCount;
     };
 
     template <>
     inline LayerGroup& Layer::getLayerAs<LayerGroup>()
     {
-        assert(getType() == Type::Group);
+        EASTL_ASSERT(getType() == Type::Group);
         return *static_cast<LayerGroup*>(this);
     }
 
     template <>
     inline const LayerGroup& Layer::getLayerAs<LayerGroup>() const
     {
-        assert(getType() == Type::Group);
+        EASTL_ASSERT(getType() == Type::Group);
         return *static_cast<const LayerGroup*>(this);
     }
 }

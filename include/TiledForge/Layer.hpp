@@ -31,9 +31,9 @@ source distribution.
 #include <TiledForge/Property.hpp>
 #include <TiledForge/Types.hpp>
 
-#include <string>
-#include <memory>
-#include <vector>
+#include <EASTL/string.h>
+#include <EASTL/unique_ptr.h>
+#include <EASTL/vector.h>
 
 namespace pugi
 {
@@ -55,7 +55,7 @@ namespace TiledForge
     class TILEDFORGE_EXPORT_API Layer
     {
     public:
-        using Ptr = std::unique_ptr<Layer>;
+        using Ptr = eastl::unique_ptr<Layer>;
 
         Layer() : m_opacity(1.f), m_visible(true) {};
         virtual ~Layer() = default;
@@ -85,7 +85,7 @@ namespace TiledForge
         /*!
         \brief Returns the class of the Layer, as defined in the editor Tiled 1.9+
         */
-        const std::string& getClass() const { return m_class; }
+        const eastl::string& getClass() const { return m_class; }
 
         /*!
         \brief Use this to get a reference to the concrete layer type
@@ -108,7 +108,7 @@ namespace TiledForge
         /*!
         \brief Returns the name of the layer
         */
-        const std::string& getName() const { return m_name; }
+        const eastl::string& getName() const { return m_name; }
 
         /*!
         \brief Returns the opacity value for the layer
@@ -146,12 +146,12 @@ namespace TiledForge
         /*!
         \brief Returns the list of properties of this layer
         */
-        const std::vector<Property>& getProperties() const { return m_properties; }
+        const eastl::vector<Property>& getProperties() const { return m_properties; }
 
     protected:
 
-        void setName(const std::string& name) { m_name = name; }
-        void setClass(const std::string& cls) { m_class = cls; }
+        void setName(const eastl::string& name) { m_name = name; }
+        void setClass(const eastl::string& cls) { m_class = cls; }
         void setOpacity(float opacity) { m_opacity = opacity; }
         void setVisible(bool visible) { m_visible = visible; }
         void setOffset(std::int32_t x, std::int32_t y) { m_offset = Vector2i(x, y); }
@@ -161,8 +161,8 @@ namespace TiledForge
         void addProperty(const pugi::xml_node& node) { m_properties.emplace_back(); m_properties.back().parse(node); }
 
     private:
-        std::string m_name;
-        std::string m_class;
+        eastl::string m_name;
+        eastl::string m_class;
         float m_opacity;
         bool m_visible;
         Vector2i m_offset;
@@ -170,6 +170,6 @@ namespace TiledForge
         Colour m_tintColour = { 255,255,255,255 };
         Vector2u m_size;
 
-        std::vector<Property> m_properties;
+        eastl::vector<Property> m_properties;
     };
 }

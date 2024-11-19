@@ -31,7 +31,7 @@ source distribution.
 #include <TiledForge/Layer.hpp>
 #include <TiledForge/Object.hpp>
 
-#include <vector>
+#include <EASTL/vector.h>
 
 namespace TiledForge
 {
@@ -68,32 +68,32 @@ namespace TiledForge
         \brief Returns a reference to the vector of properties for
         the ObjectGroup
         */
-        const std::vector<Property>& getProperties() const { return m_properties; }
+        const eastl::vector<Property>& getProperties() const { return m_properties; }
 
         /*!
         \brief Returns a reference to the vector of Objects which belong to the group
         */
-        const std::vector<Object>& getObjects() const { return m_objects; }
+        const eastl::vector<Object>& getObjects() const { return m_objects; }
 
     private:
         Colour m_colour;
         DrawOrder m_drawOrder;
 
-        std::vector<Property> m_properties;
-        std::vector<Object> m_objects;
+        eastl::vector<Property> m_properties;
+        eastl::vector<Object> m_objects;
     };
 
     template <>
     inline ObjectGroup& Layer::getLayerAs<ObjectGroup>()
     {
-        assert(getType() == Type::Object);
+        EASTL_ASSERT(getType() == Type::Object);
         return *static_cast<ObjectGroup*>(this);
     }
 
     template <>
     inline const ObjectGroup& Layer::getLayerAs<ObjectGroup>() const
     {
-        assert(getType() == Type::Object);
+        EASTL_ASSERT(getType() == Type::Object);
         return *static_cast<const ObjectGroup*>(this);
     }
 }

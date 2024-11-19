@@ -47,7 +47,7 @@ namespace std
 
 #define STOI(str) std::strtol(str.c_str(), 0, 10)
 #else
-#define STOI(str) std::stoi(str)
+#define STOI(str) std::stoi(str.c_str())
 
 #endif // __ANDROID__
 #endif // ANDROID_INC_HPP_

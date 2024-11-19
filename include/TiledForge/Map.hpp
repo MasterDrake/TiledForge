@@ -33,10 +33,10 @@ source distribution.
 #include <TiledForge/Types.hpp>
 #include <TiledForge/Object.hpp>
 
-#include <string>
-#include <vector>
-#include <map>
-#include <unordered_map>
+#include <EASTL/string.h>
+#include <EASTL/vector.h>
+#include <EASTL/map.h>
+#include <EASTL/unordered_map.h>
 
 namespace TiledForge
 {
@@ -103,20 +103,20 @@ namespace TiledForge
 
         /*!
         \brief Attempts to parse the tilemap at the given location.
-        \param std::string Path to map file to try to parse
+        \param eastl::string Path to map file to try to parse
         \returns true if map was parsed successfully else returns false.
         In debug mode this will attempt to log any errors to the console.
         */
-        bool load(const std::string&);
+        bool load(const eastl::string&);
 
         /*!
         \brief Loads a map from a document stored in a string
-        \param data A std::string containing the map data to load
-        \param workingDir A std::string containing the working directory
+        \param data A eastl::string containing the map data to load
+        \param workingDir A eastl::string containing the working directory
         in which to find assets such as tile sets or images
         \returns true if successful, else false
         */
-        bool loadFromString(const std::string& data, const std::string& workingDir);
+        bool loadFromString(const eastl::string& data, const eastl::string& workingDir);
 
         /*!
         \brief Returns the version of the tile map last parsed.
@@ -185,7 +185,7 @@ namespace TiledForge
         /*!
         \brief Returns a reference to the vector of tile sets used by the map
         */
-        const std::vector<Tileset>& getTilesets() const { return m_tilesets; }
+        const eastl::vector<Tileset>& getTilesets() const { return m_tilesets; }
 
         /*!
         \brief Returns a reference to the vector containing the layer data.
@@ -193,34 +193,34 @@ namespace TiledForge
         found via Layer::getType()
         \see Layer
         */
-        const std::vector<Layer::Ptr>& getLayers() const { return m_layers; }
+        const eastl::vector<Layer::Ptr>& getLayers() const { return m_layers; }
 
         /*!
         \brief Returns the class of the Map, as defined in the editor Tiled 1.9+
         */
-        const std::string& getClass() const { return m_class; }
+        const eastl::string& getClass() const { return m_class; }
 
         /*!
         \brief Returns a vector of Property objects loaded by the map
         */
-        const std::vector<Property>& getProperties() const { return m_properties; } 
+        const eastl::vector<Property>& getProperties() const { return m_properties; } 
 
         /*!
         \brief Returns a Hashmap of all animated tiles accessible by TileID
         */
-        const std::map<std::uint32_t, Tileset::Tile>& getAnimatedTiles() const { return m_animTiles; }
+        const eastl::map<std::uint32_t, Tileset::Tile>& getAnimatedTiles() const { return m_animTiles; }
 
         /*!
         \brief Returns the current working directory of the map. Images and
         other resources are loaded relative to this.
         */
-        const std::string& getWorkingDirectory() const { return m_workingDirectory; }
+        const eastl::string& getWorkingDirectory() const { return m_workingDirectory; }
 
         /*!
         \brief Returns an unordered_map of template objects indexed by file name
         */
-        std::unordered_map<std::string, Object>& getTemplateObjects() { return m_templateObjects; }
-        const std::unordered_map<std::string, Object>& getTemplateObjects() const { return m_templateObjects; }
+        eastl::unordered_map<eastl::string, Object>& getTemplateObjects() { return m_templateObjects; }
+        const eastl::unordered_map<eastl::string, Object>& getTemplateObjects() const { return m_templateObjects; }
 
         /*!
         \brief Returns an unordered_map of tilesets used by templated objects.
@@ -228,8 +228,8 @@ namespace TiledForge
         from this map. Otherwise the object's tileset can be found from in the map's
         global tilesets returned by getTilesets().
         */
-        std::unordered_map<std::string, Tileset>& getTemplateTilesets() { return m_templateTilesets; }
-        const std::unordered_map<std::string, Tileset>& getTemplateTilesets() const { return m_templateTilesets; }
+        eastl::unordered_map<eastl::string, Tileset>& getTemplateTilesets() { return m_templateTilesets; }
+        const eastl::unordered_map<eastl::string, Tileset>& getTemplateTilesets() const { return m_templateTilesets; }
 
         /*!
         \brief Returns true if this is in infinite tile map.
@@ -247,10 +247,10 @@ namespace TiledForge
 
     private:
         Version m_version;
-        std::string m_class;
+        bool m_infinite;
+        eastl::string m_class;
         Orientation m_orientation;
         RenderOrder m_renderOrder;
-        bool m_infinite;
 
         Vector2u m_tileCount;
         Vector2u m_tileSize;
@@ -263,20 +263,19 @@ namespace TiledForge
 
         Colour m_backgroundColour;
 
-        std::string m_workingDirectory;
+        eastl::string m_workingDirectory;
 
-        std::vector<Tileset> m_tilesets;
-        std::vector<Layer::Ptr> m_layers;
-        std::vector<Property> m_properties;
-        std::map<std::uint32_t, Tileset::Tile> m_animTiles;
+        eastl::vector<Tileset> m_tilesets;
+        eastl::vector<Layer::Ptr> m_layers;
+        eastl::vector<Property> m_properties;
+        eastl::map<std::uint32_t, Tileset::Tile> m_animTiles;
 
-        std::unordered_map<std::string, Object> m_templateObjects;
-        std::unordered_map<std::string, Tileset> m_templateTilesets;
+        eastl::unordered_map<eastl::string, Object> m_templateObjects;
+        eastl::unordered_map<eastl::string, Tileset> m_templateTilesets;
 
         bool parseMapNode(const pugi::xml_node&);
 
-        //always returns false so we can return this
-        //on load failure
+        //always returns false so we can return this on load failure
         bool reset();
     };
 }

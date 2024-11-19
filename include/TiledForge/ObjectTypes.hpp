@@ -28,8 +28,8 @@ source distribution.
 
 #include <TiledForge/Property.hpp>
 
-#include <string>
-#include <vector>
+#include <EASTL/string.h>
+#include <EASTL/vector.h>
 
 namespace TiledForge
 {
@@ -46,36 +46,36 @@ namespace TiledForge
         */
         struct Type
         {
-            std::string name;
+            eastl::string name;
             Colour colour;
-            std::vector<Property> properties;
+            eastl::vector<Property> properties;
         };
 
         /*!
         \brief Attempts to parse the object types at the given location.
-        \param std::string Path to object types file to try to parse
+        \param eastl::string Path to object types file to try to parse
         \returns true if object types was parsed successfully else returns false.
         In debug mode this will attempt to log any errors to the console.
         */
-        bool load(const std::string&);
+        bool load(const eastl::string&);
 
         /*!
         \brief Loads an object types from a document stored in a string
-        \param data A std::string containing the object types to load
-        \param workingDir A std::string containing the working directory
+        \param data A eastl::string containing the object types to load
+        \param workingDir A eastl::string containing the working directory
         in which to find files.
         \returns true if successful, else false
         */
-        bool loadFromString(const std::string& data, const std::string& workingDir);
+        bool loadFromString(const eastl::string& data, const eastl::string& workingDir);
 
         /*!
         \brief Returns all predefined types and their default values.
         */
-        const std::vector<Type>& getTypes() const { return m_types; }
+        const eastl::vector<Type>& getTypes() const { return m_types; }
 
     private:
-        std::string m_workingDirectory;
-        std::vector<Type> m_types;
+        eastl::string m_workingDirectory;
+        eastl::vector<Type> m_types;
 
         bool parseObjectTypesNode(const pugi::xml_node&);
 

@@ -37,7 +37,7 @@ source distribution.
 
 #include <cstring>
 
-bool TiledForge::decompress(const char* source, std::vector<unsigned char>& dest, std::size_t inSize, std::size_t expectedSize)
+bool TiledForge::decompress(const char* source, eastl::vector<unsigned char>& dest, std::size_t inSize, std::size_t expectedSize)
 {
     if (!source)
     {
@@ -45,12 +45,8 @@ bool TiledForge::decompress(const char* source, std::vector<unsigned char>& dest
         return false;
     }
 
-//#ifdef USE_EXTLIBS
-
-
-//#else
     int currentSize = static_cast<int>(expectedSize);
-    std::vector<unsigned char> byteArray(expectedSize / sizeof(unsigned char));
+    eastl::vector<unsigned char> byteArray(expectedSize / sizeof(unsigned char));
     z_stream stream;
     stream.zalloc = Z_NULL;
     stream.zfree = Z_NULL;
@@ -89,7 +85,7 @@ bool TiledForge::decompress(const char* source, std::vector<unsigned char>& dest
             Logger::log("If using gzip or zstd compression try using zlib instead", Logger::Type::Info);
         case Z_MEM_ERROR:
             inflateEnd(&stream);
-            Logger::log("inflate() returned " +  std::to_string(result), Logger::Type::Error);
+            Logger::log("inflate() returned " +  eastl::to_string(result), Logger::Type::Error);
             return false;
         }
 
@@ -97,9 +93,9 @@ bool TiledForge::decompress(const char* source, std::vector<unsigned char>& dest
         {
             int oldSize = currentSize;
             currentSize *= 2;
-            std::vector<unsigned char> newArray(currentSize / sizeof(unsigned char));
+            eastl::vector<unsigned char> newArray(currentSize / sizeof(unsigned char));
             std::memcpy(newArray.data(), byteArray.data(), currentSize / 2);
-            byteArray = std::move(newArray);
+            byteArray = eastl::move(newArray);
 
             stream.next_out = (Bytef*)(byteArray.data() + oldSize);
             stream.avail_out = oldSize;
@@ -117,9 +113,9 @@ bool TiledForge::decompress(const char* source, std::vector<unsigned char>& dest
     const int outSize = currentSize - stream.avail_out;
     inflateEnd(&stream);
 
-    std::vector<unsigned char> newArray(outSize / sizeof(unsigned char));
+    eastl::vector<unsigned char> newArray(outSize / sizeof(unsigned char));
     std::memcpy(newArray.data(), byteArray.data(), outSize);
-    byteArray = std::move(newArray);
+    byteArray = eastl::move(newArray);
 
     //copy bytes to vector
     dest.insert(dest.begin(), byteArray.begin(), byteArray.end());

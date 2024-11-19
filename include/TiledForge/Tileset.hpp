@@ -31,9 +31,9 @@ source distribution.
 #include <TiledForge/Property.hpp>
 #include <TiledForge/ObjectGroup.hpp>
 
-#include <string>
-#include <vector>
-#include <array>
+#include <EASTL/string.h>
+#include <EASTL/vector.h>
+#include <EASTL/array.h>
 
 namespace pugi
 {
@@ -52,7 +52,7 @@ namespace TiledForge
     class TILEDFORGE_EXPORT_API Tileset final
     {
     public:
-        explicit Tileset(const std::string& workingDir);
+        explicit Tileset(const eastl::string& workingDir);
 
         /*!
         \brief Any tiles within a tile set which have special
@@ -62,7 +62,7 @@ namespace TiledForge
         struct Tile final
         {
             std::uint32_t ID = 0;
-            std::array<std::int32_t, 4u> terrainIndices{};
+            eastl::array<std::int32_t, 4u> terrainIndices{};
             std::uint32_t probability = 100;
 
             /*!
@@ -89,17 +89,17 @@ namespace TiledForge
                         return !(*this == other);
                     }
                 };
-                std::vector<Frame> frames;
+                eastl::vector<Frame> frames;
             }animation;
-            std::vector<Property> properties;
+            eastl::vector<Property> properties;
             ObjectGroup objectGroup;
-            std::string imagePath;
+            eastl::string imagePath;
             Vector2u imageSize;
             /*!
             \brief The position of the tile within the image.
             */
             Vector2u imagePosition;
-            std::string className;
+            eastl::string className;
         };
             
         /*!
@@ -108,9 +108,9 @@ namespace TiledForge
         */
         struct Terrain final
         {
-            std::string name;
+            eastl::string name;
             std::uint32_t tileID = -1;
-            std::vector<Property> properties;
+            eastl::vector<Property> properties;
         };
 
         /*!
@@ -153,12 +153,12 @@ namespace TiledForge
         /*!
         \brief Returns the name of this tile set.
         */
-        const std::string& getName() const { return m_name; }
+        const eastl::string& getName() const { return m_name; }
 
         /*!
         \brief Returns the class of the Tileset, as defined in the editor Tiled 1.9+
         */
-        const std::string& getClass() const { return m_class; }
+        const eastl::string& getClass() const { return m_class; }
 
         /*!
         \brief Returns the width and height of a tile in the
@@ -206,14 +206,14 @@ namespace TiledForge
         \brief Returns a reference to the list of Property objects for this
         tile set
         */
-        const std::vector<Property>& getProperties() const { return m_properties; }
+        const eastl::vector<Property>& getProperties() const { return m_properties; }
 
         /*!
         \brief Returns the file path to the tile set image, relative to the
         working directory. Use this to load the texture required by whichever
         method you choose to render the map.
         */
-        const std::string& getImagePath() const { return m_imagePath; }
+        const eastl::string& getImagePath() const { return m_imagePath; }
 
         /*!
         \brief Returns the size of the tile set image in pixels.
@@ -236,13 +236,13 @@ namespace TiledForge
         \brief Returns a vector of Terrain types associated with one
         or more tiles within this tile set
         */
-        const std::vector<Terrain>& getTerrainTypes() const { return m_terrainTypes; }
+        const eastl::vector<Terrain>& getTerrainTypes() const { return m_terrainTypes; }
 
         /*!
         \brief Returns a reference to the vector of tile data used by
         tiles which make up this tile set.
         */
-        const std::vector<Tile>& getTiles() const { return m_tiles; }
+        const eastl::vector<Tile>& getTiles() const { return m_tiles; }
 
         /*!
          \brief Checks if a tiled ID is in the range of the first ID and the last ID
@@ -260,12 +260,12 @@ namespace TiledForge
 
     private:
 
-        std::string m_workingDir;
+        eastl::string m_workingDir;
 
         std::uint32_t m_firstGID;
-        std::string m_source;
-        std::string m_name;
-        std::string m_class;
+        eastl::string m_source;
+        eastl::string m_name;
+        eastl::string m_class;
         Vector2u m_tileSize;
         std::uint32_t m_spacing;
         std::uint32_t m_margin;
@@ -274,15 +274,15 @@ namespace TiledForge
         ObjectAlignment m_objectAlignment;
         Vector2u m_tileOffset;
 
-        std::vector<Property> m_properties;
-        std::string m_imagePath;
+        eastl::vector<Property> m_properties;
+        eastl::string m_imagePath;
         Vector2u m_imageSize;
         Colour m_transparencyColour;
         bool m_hasTransparency;
 
-        std::vector<Terrain> m_terrainTypes;
-        std::vector<std::uint32_t> m_tileIndex;
-        std::vector<Tile> m_tiles;
+        eastl::vector<Terrain> m_terrainTypes;
+        eastl::vector<std::uint32_t> m_tileIndex;
+        eastl::vector<Tile> m_tiles;
 
         void reset();
 

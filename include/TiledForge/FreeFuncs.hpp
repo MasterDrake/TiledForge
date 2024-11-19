@@ -55,26 +55,25 @@ René Nyffenegger rene.nyffenegger@adp-gmbh.ch
 #include <TiledForge/detail/Log.hpp>
 #include <TiledForge/Types.hpp>
 
-#include <string>
+#include <EASTL/string.h>
 #include <sstream>
-#include <vector>
-#include <functional>
-#include <algorithm>
+#include <EASTL/vector.h>
+#include <EASTL/functional.h>
+#include <EASTL/algorithm.h>
 
 namespace TiledForge
 {
     //using inline here just to supress unused warnings on gcc
-    bool decompress(const char* source, std::vector<unsigned char>& dest, std::size_t inSize, std::size_t expectedSize);
+    bool decompress(const char* source, eastl::vector<unsigned char>& dest, std::size_t inSize, std::size_t expectedSize);
 
-    static inline std::string base64_decode(std::string const& encoded_string)
+    static inline eastl::string base64_decode(eastl::string const& encoded_string)
     {
-        static const std::string base64_chars =
+        static const eastl::string base64_chars =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
             "abcdefghijklmnopqrstuvwxyz"
             "0123456789+/";            
             
-        std::function<bool(unsigned char)> is_base64 = 
-            [](unsigned char c)->bool
+        eastl::function<bool(unsigned char)> is_base64 = [](unsigned char c)->bool
         {
             return (isalnum(c) || (c == '+') || (c == '/'));
         };
@@ -84,7 +83,7 @@ namespace TiledForge
         int j = 0;
         int in_ = 0;
         unsigned char char_array_4[4], char_array_3[3];
-        std::string ret;
+        eastl::string ret;
 
         while (in_len-- && (encoded_string[in_] != '=') && is_base64(encoded_string[in_]))
         {
@@ -132,11 +131,11 @@ namespace TiledForge
         return ret;
     }
 
-    static inline Colour colourFromString(std::string str)
+    static inline Colour colourFromString(eastl::string str)
     {
         //removes preceding #
         auto result = str.find_last_of('#');
-        if (result != std::string::npos)
+        if (result != eastl::string::npos)
         {
             str = str.substr(result + 1);
         }
@@ -145,7 +144,7 @@ namespace TiledForge
         {
             unsigned int value, r, g, b;
             unsigned int a = 255;
-            std::stringstream input(str);
+            std::stringstream input(str.c_str());
             input >> std::hex >> value;
 
             r = (value >> 16) & 0xff;
@@ -163,12 +162,12 @@ namespace TiledForge
         return{};
     }
 
-    static inline std::string resolveFilePath(std::string path, const std::string& workingDir)
+    static inline eastl::string resolveFilePath(eastl::string path, const eastl::string& workingDir)
     {      
-        static const std::string match("../");
+        static const eastl::string match("../");
         std::size_t result = path.find(match);
         std::size_t count = 0;
-        while (result != std::string::npos)
+        while (result != eastl::string::npos)
         {
             count++;
             path = path.substr(result + match.size());
@@ -177,11 +176,11 @@ namespace TiledForge
 
         if (workingDir.empty()) return path;
 
-        std::string outPath = workingDir;
+        eastl::string outPath = workingDir;
         for (auto i = 0u; i < count; ++i)
         {
             result = outPath.find_last_of('/');
-            if (result != std::string::npos)
+            if (result != eastl::string::npos)
             {
                 outPath = outPath.substr(0, result);
             }
@@ -199,15 +198,15 @@ namespace TiledForge
 #endif
     }
 
-    static inline std::string getFilePath(const std::string& path)
+    static inline eastl::string getFilePath(const eastl::string& path)
     {
         //TODO this doesn't actually check that there is a file at the
         //end of the path, or that it's even a valid path...
 
-        static auto searchFunc = [](const char separator, const std::string& path)->std::string
+        static auto searchFunc = [](const char separator, const eastl::string& path) -> eastl::string
         {
             std::size_t i = path.rfind(separator, path.length());
-            if (i != std::string::npos)
+            if (i != eastl::string::npos)
             {
                 return(path.substr(0, i + 1));
             }
@@ -217,10 +216,10 @@ namespace TiledForge
 
 
 #ifdef _WIN32 //try windows formatted paths first
-        std::string retVal = searchFunc('\\', path);
+        eastl::string retVal = searchFunc('\\', path);
         if (!retVal.empty()) return retVal;
 #endif
 
         return searchFunc('/', path);
     }
-} //namespacec TiledForge
+} //namespace TiledForge

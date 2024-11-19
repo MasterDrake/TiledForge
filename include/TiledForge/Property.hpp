@@ -30,9 +30,8 @@ source distribution.
 #include <TiledForge/Config.hpp>
 #include <TiledForge/Types.hpp>
 
-#include <string>
-#include <cassert>
-#include <vector>
+#include <EASTL/string.h>
+#include <EASTL/vector.h>
 
 namespace pugi
 {
@@ -70,9 +69,9 @@ namespace TiledForge
         static Property fromBoolean(bool value);
         static Property fromFloat(float value);
         static Property fromInt(int value);
-        static Property fromString(const std::string& value);
+        static Property fromString(const eastl::string& value);
         static Property fromColour(const Colour& value);
-        static Property fromFile(const std::string& value);
+        static Property fromFile(const eastl::string& value);
         static Property fromObject(int value);
 
         /*!
@@ -92,52 +91,52 @@ namespace TiledForge
         /*!
         \brief Returns the name of this property
         */
-        const std::string& getName() const { return m_name; }
+        const eastl::string& getName() const { return m_name; }
 
         /*!
         \brief Returns the property's value as a boolean
         */
-        bool getBoolValue() const { assert(m_type == Type::Boolean); return m_boolValue; }
+        bool getBoolValue() const { EASTL_ASSERT(m_type == Type::Boolean); return m_boolValue; }
 
         /*!
         \brief Returns the property's value as a float
         */
-        float getFloatValue() const { assert(m_type == Type::Float); return m_floatValue; }
+        float getFloatValue() const { EASTL_ASSERT(m_type == Type::Float); return m_floatValue; }
 
         /*!
         \brief Returns the property's value as an integer
         */
-        int getIntValue() const { assert(m_type == Type::Int || m_type == Type::Object); return m_intValue; }
+        int getIntValue() const { EASTL_ASSERT(m_type == Type::Int || m_type == Type::Object); return m_intValue; }
 
         /*!
         \brief Returns the property's value as a string
         */
-        const std::string& getStringValue() const { assert(m_type == Type::String); return m_stringValue; }
+        const eastl::string& getStringValue() const { EASTL_ASSERT(m_type == Type::String); return m_stringValue; }
 
         /*!
         \brief Returns the property's value as a Colour struct
         */
-        const Colour& getColourValue() const { assert(m_type == Type::Colour); return m_colourValue; }
+        const Colour& getColourValue() const { EASTL_ASSERT(m_type == Type::Colour); return m_colourValue; }
 
         /*!
         \brief Returns the file path property as a string, relative to the map file
         */
-        const std::string& getFileValue() const { assert(m_type == Type::File); return m_stringValue; }
+        const eastl::string& getFileValue() const { EASTL_ASSERT(m_type == Type::File); return m_stringValue; }
 
         /*!
         \brief Returns an array of properties
         */
-        const std::vector<Property>& getClassValue() const {assert(m_type == Type::Class); return m_classValue; }
+        const eastl::vector<Property>& getClassValue() const { EASTL_ASSERT(m_type == Type::Class); return m_classValue; }
 
         /*!
         \brief Returns an the propertytype value
         */
-        const std::string getPropertyType() const {assert(m_type == Type::Class); return m_propertyType; }
+        const eastl::string getPropertyType() const { EASTL_ASSERT(m_type == Type::Class); return m_propertyType; }
         
         /*!
         \brief Returns the property's value as an integer object handle
         */
-        int getObjectValue() const { assert(m_type == Type::Object); return m_intValue; }
+        int getObjectValue() const { EASTL_ASSERT(m_type == Type::Object); return m_intValue; }
 
 
     private:
@@ -147,13 +146,12 @@ namespace TiledForge
             float m_floatValue;
             int m_intValue;
         };
-        std::string m_stringValue;
-        std::string m_name;
-        std::string m_propertyType;
+        eastl::string m_stringValue;
+        eastl::string m_name;
+        eastl::string m_propertyType;
         
         Colour m_colourValue;
-        std::vector<Property> m_classValue;
-
         Type m_type;
+        eastl::vector<Property> m_classValue;
     };
 }

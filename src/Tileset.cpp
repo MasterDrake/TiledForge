@@ -33,9 +33,7 @@ source distribution.
 
 #include <ctype.h>
 
-using namespace TiledForge;
-
-Tileset::Tileset(const std::string& workingDir)
+TiledForge::Tileset::Tileset(const eastl::string& workingDir)
     : m_workingDir          (workingDir),
     m_firstGID              (0),
     m_spacing               (0),
@@ -49,11 +47,11 @@ Tileset::Tileset(const std::string& workingDir)
 }
 
 //public
-void Tileset::parse(pugi::xml_node node, Map* map)
+void TiledForge::Tileset::parse(pugi::xml_node node, Map* map)
 {
-    assert(map);
+    EASTL_ASSERT(map);
 
-    std::string attribString = node.name();
+    eastl::string attribString = node.name();
     if (attribString != "tileset")
     {
         Logger::log(attribString + ": not a tileset node! Node will be skipped.", Logger::Type::Warning);
@@ -71,13 +69,13 @@ void Tileset::parse(pugi::xml_node node, Map* map)
     if (node.attribute("source"))
     {
         //parse TSX doc
-        std::string path = node.attribute("source").as_string();
+        eastl::string path = node.attribute("source").as_string();
         path = resolveFilePath(path, m_workingDir);
 
         //as the TSX file now dictates the image path, the working
         //directory is now that of the tsx file
         auto position = path.find_last_of('/');
-        if (position != std::string::npos)
+        if (position != eastl::string::npos)
         {
             m_workingDir = path.substr(0, position);
         }
@@ -123,7 +121,7 @@ void Tileset::parse(pugi::xml_node node, Map* map)
     m_tileIndex.reserve(m_tileCount);
     m_tiles.reserve(m_tileCount);
 
-    std::string objectAlignment = node.attribute("objectalignment").as_string();
+    eastl::string objectAlignment = node.attribute("objectalignment").as_string();
     if (!objectAlignment.empty())
     {
         if (objectAlignment == "unspecified")
@@ -171,7 +169,7 @@ void Tileset::parse(pugi::xml_node node, Map* map)
     const auto& children = node.children();
     for (const auto& node : children)
     {
-        std::string name = node.name();
+        eastl::string name = node.name();
         if (name == "image")
         {
             //TODO this currently doesn't cover embedded images
@@ -225,13 +223,13 @@ void Tileset::parse(pugi::xml_node node, Map* map)
     }
 }
 
-std::uint32_t Tileset::getLastGID() const
+std::uint32_t TiledForge::Tileset::getLastGID() const
 {
-    assert(!m_tileIndex.empty());
+    EASTL_ASSERT(!m_tileIndex.empty());
     return m_firstGID + static_cast<std::uint32_t>(m_tileIndex.size()) - 1;
 }
 
-const Tileset::Tile* Tileset::getTile(std::uint32_t id) const
+const TiledForge::Tileset::Tile* TiledForge::Tileset::getTile(std::uint32_t id) const
 {
     if (!hasTile(id))
     {
@@ -245,7 +243,7 @@ const Tileset::Tile* Tileset::getTile(std::uint32_t id) const
 }
 
 //private
-void Tileset::reset()
+void TiledForge::Tileset::reset()
 {
     m_firstGID = 0;
     m_source = "";
@@ -267,13 +265,13 @@ void Tileset::reset()
     m_tiles.clear();
 }
 
-void Tileset::parseOffsetNode(const pugi::xml_node& node)
+void TiledForge::Tileset::parseOffsetNode(const pugi::xml_node& node)
 {
     m_tileOffset.x = node.attribute("x").as_int();
     m_tileOffset.y = node.attribute("y").as_int();
 }
 
-void Tileset::parsePropertyNode(const pugi::xml_node& node)
+void TiledForge::Tileset::parsePropertyNode(const pugi::xml_node& node)
 {
     const auto& children = node.children();
     for (const auto& child : children)
@@ -283,12 +281,12 @@ void Tileset::parsePropertyNode(const pugi::xml_node& node)
     }
 }
 
-void Tileset::parseTerrainNode(const pugi::xml_node& node)
+void TiledForge::Tileset::parseTerrainNode(const pugi::xml_node& node)
 {
     const auto& children = node.children();
     for (const auto& child : children)
     {
-        std::string name = child.name();
+        eastl::string name = child.name();
         if (name == "terrain")
         {
             m_terrainTypes.emplace_back();
@@ -312,7 +310,7 @@ void Tileset::parseTerrainNode(const pugi::xml_node& node)
     }
 }
 
-Tileset::Tile& Tileset::newTile(std::uint32_t ID)
+TiledForge::Tileset::Tile& TiledForge::Tileset::newTile(std::uint32_t ID)
 {
     Tile& tile = (m_tiles.emplace_back(), m_tiles.back());
     if (m_tileIndex.size() <= ID)
@@ -325,14 +323,14 @@ Tileset::Tile& Tileset::newTile(std::uint32_t ID)
     return tile;
 }
 
-void Tileset::parseTileNode(const pugi::xml_node& node, Map* map)
+void TiledForge::Tileset::parseTileNode(const pugi::xml_node& node, Map* map)
 {
-    assert(map);
+    EASTL_ASSERT(map);
 
     Tile& tile = newTile(node.attribute("id").as_int());
     if (node.attribute("terrain"))
     {
-        std::string data = node.attribute("terrain").as_string();
+        eastl::string data = node.attribute("terrain").as_string();
         bool lastWasChar = true;
         std::size_t idx = 0u;
         for (auto i = 0u; i < data.size() && idx < tile.terrainIndices.size(); ++i)
@@ -384,7 +382,7 @@ void Tileset::parseTileNode(const pugi::xml_node& node, Map* map)
     const auto& children = node.children();
     for (const auto& child : children)
     {
-        std::string name = child.name();
+        eastl::string name = child.name();
         if (name == "properties")
         {
             for (const auto& prop : child.children())
@@ -399,7 +397,7 @@ void Tileset::parseTileNode(const pugi::xml_node& node, Map* map)
         }
         else if (name == "image")
         {
-            std::string attribString = child.attribute("source").as_string();
+            eastl::string attribString = child.attribute("source").as_string();
             if (attribString.empty())
             {
                 Logger::log("Tile image path missing", Logger::Type::Warning);
@@ -437,7 +435,7 @@ void Tileset::parseTileNode(const pugi::xml_node& node, Map* map)
     }
 }
 
-void Tileset::createMissingTile(std::uint32_t ID)
+void TiledForge::Tileset::createMissingTile(std::uint32_t ID)
 {
     //first, we check if the tile does not yet exist
     if (m_tileIndex.size() > ID && m_tileIndex[ID])
