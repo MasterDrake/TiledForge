@@ -25,11 +25,8 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-#ifdef USE_EXTLIBS
 #include <pugixml.hpp>
-#else
-#include "detail/pugixml.hpp"
-#endif
+
 #include <TiledForge/LayerGroup.hpp>
 #include <TiledForge/FreeFuncs.hpp>
 #include <TiledForge/ObjectGroup.hpp>
@@ -37,7 +34,7 @@ source distribution.
 #include <TiledForge/TileLayer.hpp>
 #include <TiledForge/detail/Log.hpp>
 
-using namespace tmx;
+using namespace TiledForge;
 
 LayerGroup::LayerGroup(const std::string& workingDir, const Vector2u& tileCount)
     : m_workingDir(workingDir),

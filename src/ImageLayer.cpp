@@ -25,16 +25,13 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-#ifdef USE_EXTLIBS
 #include <pugixml.hpp>
-#else
-#include "detail/pugixml.hpp"
-#endif
+
 #include <TiledForge/ImageLayer.hpp>
 #include <TiledForge/FreeFuncs.hpp>
 #include <TiledForge/detail/Log.hpp>
 
-using namespace tmx;
+using namespace TiledForge;
 
 ImageLayer::ImageLayer(const std::string& workingDir)
     : m_workingDir      (workingDir),

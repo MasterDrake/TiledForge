@@ -25,18 +25,15 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-#ifdef USE_EXTLIBS
 #include <pugixml.hpp>
-#else
-#include "detail/pugixml.hpp"
-#endif
+
 #include <TiledForge/Tileset.hpp>
 #include <TiledForge/FreeFuncs.hpp>
 #include <TiledForge/detail/Log.hpp>
 
 #include <ctype.h>
 
-using namespace tmx;
+using namespace TiledForge;
 
 Tileset::Tileset(const std::string& workingDir)
     : m_workingDir          (workingDir),
@@ -49,7 +46,6 @@ Tileset::Tileset(const std::string& workingDir)
     m_transparencyColour    (0, 0, 0, 0),
     m_hasTransparency       (false)
 {
-
 }
 
 //public
@@ -411,7 +407,7 @@ void Tileset::parseTileNode(const pugi::xml_node& node, Map* map)
             }
             tile.imagePath = resolveFilePath(attribString, m_workingDir);
 
-            tile.imagePosition = tmx::Vector2u(0, 0);
+            tile.imagePosition = TiledForge::Vector2u(0, 0);
 
             if (child.attribute("trans"))
             {

@@ -40,7 +40,7 @@ namespace pugi
     class xml_node;
 }
 
-namespace tmx
+namespace TiledForge
 {
     class Map;
 
@@ -49,7 +49,7 @@ namespace tmx
     from a *.tmx format tile map via the tmx::Map
     class.
     */
-    class TMXLITE_EXPORT_API Tileset final
+    class TILEDFORGE_EXPORT_API Tileset final
     {
     public:
         explicit Tileset(const std::string& workingDir);

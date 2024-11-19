@@ -31,13 +31,13 @@ source distribution.
 #include <string>
 #include <vector>
 
-namespace tmx
+namespace TiledForge
 {
     /*!
     \brief Parser for Tiled object types export format.
     Link to the specification: https://doc.mapeditor.org/fr/latest/manual/custom-properties/#predefining-properties.
     */
-    class TMXLITE_EXPORT_API ObjectTypes final
+    class TILEDFORGE_EXPORT_API ObjectTypes final
     {
     public:
         /*!

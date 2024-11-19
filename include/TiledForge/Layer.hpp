@@ -40,7 +40,7 @@ namespace pugi
     class xml_node;
 }
 
-namespace tmx
+namespace TiledForge
 {
     class Map;
     class TileLayer;
@@ -52,7 +52,7 @@ namespace tmx
     This is an abstract base class from which all layer
     types are derived.
     */
-    class TMXLITE_EXPORT_API Layer
+    class TILEDFORGE_EXPORT_API Layer
     {
     public:
         using Ptr = std::unique_ptr<Layer>;

@@ -25,11 +25,8 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-#ifdef USE_EXTLIBS
 #include <pugixml.hpp>
-#else
-#include "detail/pugixml.hpp"
-#endif
+
 #include <TiledForge/Object.hpp>
 #include <TiledForge/FreeFuncs.hpp>
 #include <TiledForge/Map.hpp>
@@ -38,7 +35,7 @@ source distribution.
 
 #include <sstream>
 
-using namespace tmx;
+using namespace TiledForge;
 
 Object::Object()
     : m_UID     (0),

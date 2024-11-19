@@ -33,7 +33,7 @@ source distribution.
 #include <ostream>
 
 
-namespace tmx
+namespace TiledForge
 {
     /*!
     \brief Two dimensional vector used to store points and positions
@@ -107,7 +107,7 @@ namespace tmx
     \brief Contains the red, green, blue and alpha values of a colour
     in the range 0 - 255.
     */
-    struct TMXLITE_EXPORT_API Colour final
+    struct TILEDFORGE_EXPORT_API Colour final
     {
         Colour(std::uint8_t red = 0, std::uint8_t green = 0, std::uint8_t blue = 0, std::uint8_t alpha = 255)
             : r(red), g(green), b(blue), a(alpha) {}
@@ -134,17 +134,17 @@ namespace tmx
 }
 
 template <typename T>
-std::ostream& operator << (std::ostream& os, const tmx::Vector2<T>& t)
+std::ostream& operator << (std::ostream& os, const TiledForge::Vector2<T>& t)
 {
     os << "{" << t.x << ", " << t.y << "}";
     return os;
 }
 
 template <typename T>
-std::ostream& operator << (std::ostream& os, const tmx::Rectangle<T>& t)
+std::ostream& operator << (std::ostream& os, const TiledForge::Rectangle<T>& t)
 {
     os << "{" << t.left << ", " << t.top << ", " << t.width << ", " << t.height << "}";
     return os;
 }
 
-std::ostream& operator << (std::ostream& os, const tmx::Colour& c);
+std::ostream& operator << (std::ostream& os, const TiledForge::Colour& c);

@@ -25,16 +25,13 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-#ifdef USE_EXTLIBS
 #include <pugixml.hpp>
-#else
-#include "detail/pugixml.hpp"
-#endif
+
 #include <TiledForge/FreeFuncs.hpp>
 #include <TiledForge/ObjectGroup.hpp>
 #include <TiledForge/detail/Log.hpp>
 
-using namespace tmx;
+using namespace TiledForge;
 
 ObjectGroup::ObjectGroup()
     : m_colour    (127, 127, 127, 255),

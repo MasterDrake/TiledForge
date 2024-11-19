@@ -25,16 +25,13 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-#ifdef USE_EXTLIBS
 #include <pugixml.hpp>
-#else
-#include "detail/pugixml.hpp"
-#endif
+
 #include <TiledForge/Property.hpp>
 #include <TiledForge/detail/Log.hpp>
 #include <TiledForge/FreeFuncs.hpp>
 
-using namespace tmx;
+using namespace TiledForge;
 
 Property::Property()
     : m_type(Type::Undef)

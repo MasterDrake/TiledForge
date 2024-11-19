@@ -27,8 +27,8 @@ source distribution.
 
 //flexible logging class, based on code at https://github.com/fallahn/xygine
 
-#ifndef TMXLITE_LOGGER_HPP_
-#define TMXLITE_LOGGER_HPP_
+#ifndef TILEDFORGE_LOGGER_HPP_
+#define TILEDFORGE_LOGGER_HPP_
 
 #include <string>
 #include <iostream>
@@ -48,14 +48,14 @@ source distribution.
     #include <android/log.h>
     #include <cstring>
 
-    #define  LOG_TAG    "TMXlite-Debug" 
+    #define  LOG_TAG    "TiledForge-Debug" 
     //#define  ALOG(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
 
     #define LOGI(...)  __android_log_print(ANDROID_LOG_INFO,LOG_TAG,__VA_ARGS__)
     #define LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 #endif // __ANDROID__
 
-namespace tmx
+namespace TiledForge
 {
     /*!
     \brief Class allowing messages to be logged to a combination
@@ -187,4 +187,4 @@ ss << message << " (" << __FILE__ << ", " << __LINE__ << ")"; \
 tmx::Logger::log(ss.str(), type);}
 #endif //_DEBUG_
 
-#endif //TMXLITE_LOGGER_HPP_
+#endif //TILEDFORGE_LOGGER_HPP_

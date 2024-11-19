@@ -61,7 +61,7 @@ René Nyffenegger rene.nyffenegger@adp-gmbh.ch
 #include <functional>
 #include <algorithm>
 
-namespace tmx
+namespace TiledForge
 {
     //using inline here just to supress unused warnings on gcc
     bool decompress(const char* source, std::vector<unsigned char>& dest, std::size_t inSize, std::size_t expectedSize);
@@ -223,4 +223,4 @@ namespace tmx
 
         return searchFunc('/', path);
     }
-} //namespacec tmx
+} //namespacec TiledForge

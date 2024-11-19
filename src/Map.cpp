@@ -25,11 +25,8 @@ and must not be misrepresented as being the original software.
 source distribution.
 *********************************************************************/
 
-#ifdef USE_EXTLIBS
 #include <pugixml.hpp>
-#else
-#include "detail/pugixml.hpp"
-#endif
+
 #include <TiledForge/Map.hpp>
 #include <TiledForge/FreeFuncs.hpp>
 #include <TiledForge/ObjectGroup.hpp>
@@ -41,7 +38,7 @@ source distribution.
 
 #include <queue>
 
-using namespace tmx;
+using namespace TiledForge;
 
 Map::Map()
     : m_orientation (Orientation::None),

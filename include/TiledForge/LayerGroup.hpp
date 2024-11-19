@@ -32,14 +32,14 @@ source distribution.
 
 #include <vector>
 
-namespace tmx
+namespace TiledForge
 {
     /*!
     \brief Layer groups are used to organize the layers of
     the map in a hierarchy. They can contain all other layer
     types including more layer groups to further nest layers.
     */
-    class TMXLITE_EXPORT_API LayerGroup final : public Layer
+    class TILEDFORGE_EXPORT_API LayerGroup final : public Layer
     {
     public:
 

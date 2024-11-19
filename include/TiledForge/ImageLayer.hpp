@@ -31,14 +31,14 @@ source distribution.
 #include <TiledForge/Layer.hpp>
 #include <TiledForge/Types.hpp>
 
-namespace tmx
+namespace TiledForge
 {
     /*!
     \brief Image layers contain a single image which make up that
     layer. The parser contains the fully resolved path to the image
     relative to the working directory.
     */
-    class TMXLITE_EXPORT_API ImageLayer final : public Layer
+    class TILEDFORGE_EXPORT_API ImageLayer final : public Layer
     {
     public:
         explicit ImageLayer(const std::string&);

@@ -30,12 +30,12 @@ source distribution.
 #include <TiledForge/Layer.hpp>
 #include <TiledForge/Types.hpp>
 
-namespace tmx
+namespace TiledForge
 {
     /*!
     \brief A layer made up from a series of tile sets
     */
-    class TMXLITE_EXPORT_API TileLayer final : public Layer
+    class TILEDFORGE_EXPORT_API TileLayer final : public Layer
     {
     public:
         /*!

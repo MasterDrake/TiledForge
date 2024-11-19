@@ -39,7 +39,7 @@ namespace pugi
     class xml_node;
 }
 
-namespace tmx
+namespace TiledForge
 {
     /*!
     \brief Represents a custom property.
@@ -48,7 +48,7 @@ namespace tmx
     single property and provides access to its value, the
     type of which can be determined with getType()
     */
-    class TMXLITE_EXPORT_API Property final
+    class TILEDFORGE_EXPORT_API Property final
     {
     public:
             

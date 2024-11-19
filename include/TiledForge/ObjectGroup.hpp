@@ -33,13 +33,13 @@ source distribution.
 
 #include <vector>
 
-namespace tmx
+namespace TiledForge
 {
     /*!
     \brief ObjectGroup layers contain a series of Objects
     which may be made up of shapes or images.
     */
-    class TMXLITE_EXPORT_API ObjectGroup final : public Layer
+    class TILEDFORGE_EXPORT_API ObjectGroup final : public Layer
     {
     public:
         enum class DrawOrder

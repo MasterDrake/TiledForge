@@ -39,14 +39,14 @@ namespace pugi
     class xml_node;
 }
 
-namespace tmx
+namespace TiledForge
 {
     class Map;
 
     /*!
     \brief Contains the text information stored in a Text object.
     */
-    struct TMXLITE_EXPORT_API Text final
+    struct TILEDFORGE_EXPORT_API Text final
     {
         std::string fontFamily;
         std::uint32_t pixelSize = 16; //!< pixels, not points
@@ -80,7 +80,7 @@ namespace tmx
     rectangular by default. Since version 1.0 Objects also
     support Text nodes.
     */
-    class TMXLITE_EXPORT_API Object final
+    class TILEDFORGE_EXPORT_API Object final
     {
     public:
         enum class Shape

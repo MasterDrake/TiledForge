@@ -38,12 +38,12 @@ source distribution.
 #include <map>
 #include <unordered_map>
 
-namespace tmx
+namespace TiledForge
 {
     /*!
     \brief Holds the xml version of the loaded map
     */
-    struct TMXLITE_EXPORT_API Version
+    struct TILEDFORGE_EXPORT_API Version
     {
         //major/minor are apparently reserved by gcc            
         std::uint16_t upper;
@@ -90,7 +90,7 @@ namespace tmx
     to be interpreted as needed.
     \see https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#map
     */
-    class TMXLITE_EXPORT_API Map final
+    class TILEDFORGE_EXPORT_API Map final
     {
     public:
             

@@ -26,17 +26,18 @@ source distribution.
 *********************************************************************/
 
 #ifndef USE_EXTLIBS
-#include "miniz.h"
+#include "miniz/miniz.h"
 #else
 #include <zlib.h>
 #endif
+
 #include <TiledForge/FreeFuncs.hpp>
 #include <TiledForge/Types.hpp>
 #include <TiledForge/detail/Log.hpp>
 
 #include <cstring>
 
-bool tmx::decompress(const char* source, std::vector<unsigned char>& dest, std::size_t inSize, std::size_t expectedSize)
+bool TiledForge::decompress(const char* source, std::vector<unsigned char>& dest, std::size_t inSize, std::size_t expectedSize)
 {
     if (!source)
     {
@@ -126,7 +127,7 @@ bool tmx::decompress(const char* source, std::vector<unsigned char>& dest, std::
     return true;
 }
 
-std::ostream& operator << (std::ostream& os, const tmx::Colour& c)
+std::ostream& operator << (std::ostream& os, const TiledForge::Colour& c)
 {
     os << "RGBA: " << (int)c.r << ", " << (int)c.g << ", " << (int)c.b << ", " << (int)c.a;
     return os;
