@@ -41,7 +41,7 @@ endif()
 
 # Required dependency
 find_package(pugixml REQUIRED)
-target_link_libraries(tiledforge PUBLIC pugixml::pugixml)
+target_link_libraries(tiledforge INTERFACE pugixml::static pugixml::pugixml)
 
 find_package(miniz REQUIRED)
 target_link_libraries(tiledforge PUBLIC miniz::miniz)
