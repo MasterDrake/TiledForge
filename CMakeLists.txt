@@ -46,7 +46,7 @@ target_link_libraries(tiledforge PUBLIC pugixml::pugixml)
 find_package(miniz CONFIG REQUIRED)
 target_link_libraries(tiledforge PUBLIC miniz::miniz)
 
-find_package(ZLIB CONFIG REQUIRED)
+find_package(ZLIB REQUIRED)
 target_link_libraries(tiledforge PUBLIC ZLIB::ZLIB)
 
 # Optional dependencies
