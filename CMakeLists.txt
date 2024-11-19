@@ -3,7 +3,7 @@ project(TiledForge VERSION 1.0.0 LANGUAGES CXX)
 
 # Configure CMake options for optional dependencies
 option(TILEDFORGE_BUILD_STATIC "Build tiledforge as a static library" ON)
-option(TILEDFORGE_BUILD_TEST "Build test" ON)
+option(TILEDFORGE_BUILD_TEST "Build test" OFF)
 # Add the library
 # Set library type based on user options
 if(TILEDFORGE_BUILD_STATIC)
@@ -41,7 +41,7 @@ endif()
 
 # Required dependency
 find_package(pugixml REQUIRED)
-target_link_libraries(tiledforge INTERFACE ${PUGIXML_LIBRARY})
+target_link_libraries(tiledforge PUBLIC pugixml::pugixml)
 
 find_package(miniz REQUIRED)
 target_link_libraries(tiledforge PUBLIC miniz::miniz)
