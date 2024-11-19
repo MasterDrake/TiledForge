@@ -41,19 +41,19 @@ endif()
 
 # Required dependency
 find_package(pugixml REQUIRED)
-target_link_libraries(TiledForge PUBLIC pugixml::pugixml)
+target_link_libraries(TiledForge INTERFACE pugixml::static pugixml::pugixml)
 
 find_package(miniz REQUIRED)
-target_link_libraries(TiledForge PUBLIC miniz::miniz)
+target_link_libraries(TiledForge INTERFACE miniz::miniz)
 
 find_package(ZLIB REQUIRED)
-target_link_libraries(TiledForge PUBLIC ZLIB::ZLIB)
+target_link_libraries(TiledForge INTERFACE ZLIB::ZLIB)
 
 # Optional dependencies
 if(USE_ZSTD)
     find_package(zstd  REQUIRED)
-    target_link_libraries(TiledForge PUBLIC zstd::libzstd)
-    target_compile_definitions(TiledForge PUBLIC USE_ZSTD)
+    target_link_libraries(TiledForge INTERFACE zstd::libzstd)
+    target_compile_definitions(TiledForge INTERFACE USE_ZSTD)
 endif()
 
 # Alias target for find_package support
