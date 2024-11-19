@@ -40,13 +40,13 @@ if(TILEDFORGE_BUILD_TEST)
 endif()
 
 # Required dependency
-find_package(pugixml REQUIRED)
+find_package(pugixml CONFIG REQUIRED)
 target_link_libraries(tiledforge PUBLIC pugixml::pugixml)
 
-find_package(miniz REQUIRED)
+find_package(miniz CONFIG REQUIRED)
 target_link_libraries(tiledforge PUBLIC miniz::miniz)
 
-find_package(ZLIB REQUIRED)
+find_package(ZLIB CONFIG REQUIRED)
 target_link_libraries(tiledforge PUBLIC ZLIB::ZLIB)
 
 # Optional dependencies
