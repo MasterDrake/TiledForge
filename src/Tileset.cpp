@@ -33,6 +33,8 @@ source distribution.
 
 #include <ctype.h>
 
+#include <EASTL/vector.h>
+
 TiledForge::Tileset::Tileset(const eastl::string& workingDir)
     : m_workingDir          (workingDir),
     m_firstGID              (0),
