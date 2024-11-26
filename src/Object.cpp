@@ -222,9 +222,9 @@ void TiledForge::Object::parseTemplate(const eastl::string& path, Map* map)
         pugi::xml_document doc;
         pugi::xml_parse_result result;
 
-        if (m_resourceLoader.has_value())
+        if (map->m_resourceLoader.has_value())
         {
-            auto buffer = m_resourceLoader.value()(templatePath.c_str());
+            auto buffer = map->m_resourceLoader.value()(templatePath.c_str());
             result = doc.load_buffer(buffer.data(), buffer.size());
         }
         else
