@@ -56,7 +56,15 @@ bool TiledForge::Map::load(const eastl::string& path)
 
     //open the doc
     pugi::xml_document doc;
-    auto result = doc.load_file(path.c_str());
+    if (m_resourceLoader.has_value())
+    {
+        auto buffer = m_resourceLoader.value()(path.c_str());
+        auto result = doc.load_buffer(buffer.data(), buffer.size());
+    }
+    else
+    {
+        auto result = doc.load_file(path.c_str());
+    }
     if (!result)
     {
         Logger::log("Failed opening " + path, Logger::Type::Error);

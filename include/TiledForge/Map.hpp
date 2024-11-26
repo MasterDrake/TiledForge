@@ -37,6 +37,7 @@ source distribution.
 #include <EASTL/vector.h>
 #include <EASTL/map.h>
 #include <EASTL/unordered_map.h>
+#include <EASTL/optional.h>
 
 namespace TiledForge
 {
@@ -48,8 +49,7 @@ namespace TiledForge
         //major/minor are apparently reserved by gcc            
         std::uint16_t upper;
         std::uint16_t lower;
-        Version(std::uint16_t maj = 0, std::uint16_t min = 0)
-            : upper(maj), lower(min) {}
+        Version(std::uint16_t maj = 0, std::uint16_t min = 0): upper(maj), lower(min) {}
     };
         
     enum class Orientation
@@ -245,6 +245,7 @@ namespace TiledForge
         */
         Vector2f getParallaxOrigin() const { return m_parallaxOrigin; }
 
+        void setFileLoader(eastl::function<eastl::vector<uint8_t>(eastl::string_view)>&& loader) { m_resourceLoader = loader; }
     private:
         Version m_version;
         bool m_infinite;
@@ -264,6 +265,7 @@ namespace TiledForge
         Colour m_backgroundColour;
 
         eastl::string m_workingDirectory;
+        eastl::optional<eastl::function<eastl::vector<uint8_t>(eastl::string_view)>> m_resourceLoader;
 
         eastl::vector<Tileset> m_tilesets;
         eastl::vector<Layer::Ptr> m_layers;

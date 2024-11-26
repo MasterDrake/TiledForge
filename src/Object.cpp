@@ -220,7 +220,19 @@ void TiledForge::Object::parseTemplate(const eastl::string& path, Map* map)
         auto templatePath = map->getWorkingDirectory() + "/" + path;
 
         pugi::xml_document doc;
-        if (!doc.load_file(templatePath.c_str()))
+        pugi::xml_parse_result result;
+
+        if (m_resourceLoader.has_value())
+        {
+            auto buffer = m_resourceLoader.value()(templatePath.c_str());
+            result = doc.load_buffer(buffer.data(), buffer.size());
+        }
+        else
+        {
+            result = doc.load_file(templatePath.c_str());
+        }
+
+        if (!result)
         {
             Logger::log("Failed opening template file " + path, Logger::Type::Error);
             return;
