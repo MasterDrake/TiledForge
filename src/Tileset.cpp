@@ -88,7 +88,7 @@ void TiledForge::Tileset::parse(pugi::xml_node node, Map* map)
         //see if doc can be opened
         if (map->m_resourceLoader.has_value())
         {
-            auto buffer = m_resourceLoader.value()(path.c_str());
+            auto buffer = map->m_resourceLoader.value()(path.c_str());
             result = tsxDoc.load_buffer(buffer.data(), buffer.size());
         }
         else
