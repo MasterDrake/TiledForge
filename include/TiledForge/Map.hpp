@@ -246,6 +246,7 @@ namespace TiledForge
         Vector2f getParallaxOrigin() const { return m_parallaxOrigin; }
 
         void setFileLoader(eastl::function<eastl::vector<uint8_t>(eastl::string_view)>&& loader) { m_resourceLoader = loader; }
+        eastl::optional<eastl::function<eastl::vector<uint8_t>(eastl::string_view)>> getFileLoader() const { return m_resourceLoader; }
     private:
         Version m_version;
         bool m_infinite;

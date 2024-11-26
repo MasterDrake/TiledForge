@@ -30,6 +30,7 @@ source distribution.
 #include <TiledForge/Tileset.hpp>
 #include <TiledForge/FreeFuncs.hpp>
 #include <TiledForge/detail/Log.hpp>
+#include <TiledForge/Map.hpp>
 
 #include <ctype.h>
 
@@ -88,9 +89,9 @@ void TiledForge::Tileset::parse(pugi::xml_node node, Map* map)
 
         pugi::xml_parse_result result;
         //see if doc can be opened
-        if (map->m_resourceLoader.has_value())
+        if (map->getFileLoader().has_value())
         {
-            auto buffer = map->m_resourceLoader.value()(path.c_str());
+            auto buffer = map->getFileLoader().value()(path.c_str());
             result = tsxDoc.load_buffer(buffer.data(), buffer.size());
         }
         else
