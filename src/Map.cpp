@@ -60,11 +60,11 @@ bool TiledForge::Map::load(const eastl::string& path)
     if (m_resourceLoader.has_value())
     {
         auto buffer = m_resourceLoader.value()(path.c_str());
-        auto result = doc.load_buffer(buffer.data(), buffer.size());
+        result = doc.load_buffer(buffer.data(), buffer.size());
     }
     else
     {
-        auto result = doc.load_file(path.c_str());
+        result = doc.load_file(path.c_str());
     }
     if (!result)
     {
