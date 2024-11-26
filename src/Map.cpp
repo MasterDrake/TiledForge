@@ -56,6 +56,7 @@ bool TiledForge::Map::load(const eastl::string& path)
 
     //open the doc
     pugi::xml_document doc;
+    pugi::xml_parse_result result;
     if (m_resourceLoader.has_value())
     {
         auto buffer = m_resourceLoader.value()(path.c_str());
