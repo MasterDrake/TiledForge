@@ -42,7 +42,7 @@ endif()
 # Required dependency
 
 find_package(EASTL CONFIG REQUIRED)
-target_link_libraries(tiledforge PRIVATE EASTL)
+target_link_libraries(tiledforge PUBLIC EASTL)
 
 find_package(pugixml REQUIRED)
 target_link_libraries(tiledforge PUBLIC pugixml::pugixml)
@@ -66,7 +66,7 @@ add_library(tiledforge::tiledforge ALIAS tiledforge)
 
 # Installation setup
 include(GNUInstallDirs)
-install(TARGETS tiledforge
+install(TARGETS tiledforge miniz ZLIB
     EXPORT tiledforgeTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
