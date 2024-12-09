@@ -66,7 +66,7 @@ add_library(tiledforge::tiledforge ALIAS tiledforge)
 
 # Installation setup
 include(GNUInstallDirs)
-install(TARGETS tiledforge miniz ZLIB
+install(TARGETS tiledforge miniz::miniz ZLIB::ZLIB
     EXPORT tiledforgeTargets
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
